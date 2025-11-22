@@ -1,31 +1,29 @@
-/* --- 1. Import Font & Global Variables --- */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-
+/* --- 1. Import Font & Variabel Global Neo-Brutalism --- */
 :root {
-    /* Palette - Modern & Clean */
-    --primary-gradient: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
-    --success-gradient: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
-    --danger-gradient: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+    /* Palette Warna Neo-Brutalism */
+    --bg-color: #f0f0f0;         /* Abu-abu sangat muda untuk background */
+    --card-bg: #ffffff;          /* Putih untuk kartu */
+    --border-color: #000000;     /* Hitam pekat untuk border */
     
-    --navbar-bg: rgba(44, 62, 80, 0.95); /* Slight transparency for glass effect */
-    --content-bg: #f0f4f8;
-    --card-bg: #ffffff;
+    --primary-color: #FFEB3B;    /* Kuning Terang (Main Action) */
+    --secondary-color: #FF90E8;  /* Pink Neon (Accent) */
+    --accent-color: #23A6D5;     /* Cyan (Accent 2) */
+    --success-color: #00E676;    /* Hijau Neon */
+    --danger-color: #FF5252;     /* Merah Terang */
     
-    --text-main: #2c3e50;
-    --text-light: #7f8c8d;
+    --text-main: #000000;
+    --text-muted: #444444;
+
+    /* Dimensi Brutal */
+    --border-width: 3px;
+    --shadow-offset: 5px;
+    --radius: 0px;               /* Sudut tajam (bisa diubah ke 4px-8px jika ingin sedikit lengkung) */
     
-    --border-color: #eef2f7;
-    --shadow-sm: 0 2px 8px rgba(0,0,0,0.05);
-    --shadow-md: 0 8px 24px rgba(0,0,0,0.08);
-    --shadow-hover: 0 12px 30px rgba(52, 152, 219, 0.15);
-    
-    --radius-sm: 8px;
-    --radius-md: 16px;
-    --navbar-height: 70px;
-    --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    --navbar-height: 80px;
+    --transition-speed: 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-/* --- 2. Reset & Base --- */
+/* --- 2. Reset & Setup Global --- */
 * {
     margin: 0;
     padding: 0;
@@ -34,315 +32,450 @@
 
 body {
     font-family: 'Inter', sans-serif;
-    background-color: var(--content-bg);
+    background-color: var(--bg-color);
+    background-image: radial-gradient(#000 1px, transparent 1px); /* Pola titik-titik halus */
+    background-size: 20px 20px;
     color: var(--text-main);
     line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
-    padding-top: var(--navbar-height);
-    opacity: 0; /* For fade-in animation */
-    animation: fadeInPage 0.6s ease-out forwards;
-}
-
-@keyframes fadeInPage {
-    to { opacity: 1; }
 }
 
 h1, h2, h3 {
+    font-family: 'Space Grotesk', sans-serif;
     color: var(--text-main);
     font-weight: 700;
+    text-transform: uppercase;
     letter-spacing: -0.5px;
-    margin-bottom: 1rem;
-}
-
-p {
-    color: var(--text-light);
-    margin-bottom: 1.2rem;
 }
 
 a {
     text-decoration: none;
-    color: #3498db;
-    transition: var(--transition);
+    color: var(--text-main);
+    font-weight: 600;
 }
 
-/* --- 3. Navbar (Glassmorphism) --- */
+/* --- 3. Navbar Neo-Brutal --- */
 .navbar {
+    width: 100%;
+    height: var(--navbar-height);
+    background-color: var(--card-bg);
+    border-bottom: var(--border-width) solid var(--border-color);
+    padding: 0 30px;
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: var(--navbar-height);
-    background-color: var(--navbar-bg);
-    backdrop-filter: blur(10px); /* Glass Effect */
-    -webkit-backdrop-filter: blur(10px);
-    box-shadow: var(--shadow-sm);
     z-index: 1000;
     display: flex;
     align-items: center;
+}
+
+.navbar-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
     justify-content: space-between;
-    padding: 0 5%;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
 }
 
 .navbar-brand {
-    font-size: 1.5rem;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.8rem;
     font-weight: 800;
-    color: #fff;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    color: var(--text-main);
+    background-color: var(--primary-color);
+    padding: 5px 15px;
+    border: var(--border-width) solid var(--border-color);
+    box-shadow: 4px 4px 0px var(--border-color);
+    transition: transform 0.1s;
+}
+
+.navbar-brand:hover {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0px var(--border-color);
 }
 
 .navbar-nav {
+    list-style-type: none;
     display: flex;
-    list-style: none;
-    gap: 30px;
+    gap: 20px;
 }
 
-.navbar-nav a {
-    color: rgba(255,255,255,0.7);
-    font-weight: 500;
-    font-size: 0.95rem;
-    padding: 8px 0;
-    position: relative;
+.navbar-nav li a {
+    font-family: 'Space Grotesk', sans-serif;
+    padding: 8px 16px;
+    border: var(--border-width) solid transparent; /* Invisible border untuk layout */
+    transition: all var(--transition-speed);
+    font-size: 1.1rem;
 }
 
-.navbar-nav a:hover, .navbar-nav a.active {
-    color: #fff;
+.navbar-nav li a:hover {
+    background-color: var(--secondary-color);
+    border: var(--border-width) solid var(--border-color);
+    box-shadow: 4px 4px 0px var(--border-color);
+    transform: translate(-2px, -2px);
 }
 
-.navbar-nav a::after {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 2px;
-    bottom: 0;
-    left: 0;
-    background-color: #3498db;
-    transition: var(--transition);
-}
-
-.navbar-nav a:hover::after {
-    width: 100%;
-}
-
-.hamburger-btn {
-    display: none;
-    background: none;
-    border: none;
-    color: white;
-    font-size: 1.5rem;
-    cursor: pointer;
-}
-
-/* --- 4. Layout & Cards --- */
+/* --- 4. Layout Konten --- */
 .content-wrapper {
+    margin-top: var(--navbar-height);
+    padding: 40px 20px;
     max-width: 1200px;
-    margin: 40px auto;
-    padding: 0 20px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
+.page-header {
+    margin-bottom: 30px;
+    background-color: var(--accent-color);
+    border: var(--border-width) solid var(--border-color);
+    box-shadow: var(--shadow-offset) var(--shadow-offset) 0px var(--border-color);
+    padding: 20px;
+    display: inline-block;
+}
+
+.page-header h1 {
+    margin: 0;
+    font-size: 2.5rem;
+    color: #fff;
+    text-shadow: 2px 2px 0px var(--border-color);
+}
+
+/* --- 5. Komponen Card (Kotak) --- */
 .card {
     background: var(--card-bg);
-    border-radius: var(--radius-md);
-    padding: 40px;
-    margin-bottom: 30px;
-    box-shadow: var(--shadow-sm);
-    border: 1px solid var(--border-color);
-    transition: var(--transition);
+    border: var(--border-width) solid var(--border-color);
+    padding: 30px;
+    margin-bottom: 40px;
+    box-shadow: var(--shadow-offset) var(--shadow-offset) 0px var(--border-color);
+    transition: transform var(--transition-speed);
 }
 
 .card:hover {
-    box-shadow: var(--shadow-md);
-    transform: translateY(-4px);
+    /* Efek hover halus */
+    transform: translate(-2px, -2px);
+    box-shadow: 7px 7px 0px var(--border-color);
 }
 
-/* --- 5. Forms & Drag Drop --- */
+.card h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    border-bottom: var(--border-width) solid var(--border-color);
+    padding-bottom: 10px;
+    display: inline-block;
+    background-color: var(--primary-color);
+    padding: 5px 15px;
+}
+
+/* --- 6. Form & Input --- */
 .form-group {
     margin-bottom: 1.5rem;
 }
 
-.form-label {
+.form-group label {
     display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 600;
-    color: var(--text-main);
+    margin-bottom: 10px;
+    font-weight: 700;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.1rem;
 }
 
-.form-control {
+.form-control, .form-control-file {
     width: 100%;
-    padding: 14px 18px;
-    border: 2px solid var(--border-color);
-    border-radius: var(--radius-sm);
-    font-family: inherit;
+    padding: 15px;
     font-size: 1rem;
-    transition: var(--transition);
-    background-color: #fafafa;
+    font-family: 'Inter', sans-serif;
+    border: var(--border-width) solid var(--border-color);
+    background-color: #fff;
+    border-radius: 0; /* Kotak tajam */
+    box-shadow: 4px 4px 0px rgba(0,0,0,0.1);
+    transition: all 0.2s;
 }
 
 .form-control:focus {
     outline: none;
-    border-color: #3498db;
-    background-color: #fff;
-    box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.1);
+    box-shadow: 6px 6px 0px var(--border-color);
+    background-color: #fffef0;
+    transform: translate(-2px, -2px);
 }
 
-/* Drag & Drop Zone Styles */
-.drop-zone {
-    border: 2px dashed #bdc3c7;
-    border-radius: var(--radius-md);
-    padding: 40px;
-    text-align: center;
+textarea.form-control {
+    min-height: 150px;
+    resize: vertical;
+}
+
+/* Kustomisasi Input File Button */
+.form-control-file::file-selector-button {
+    padding: 8px 15px;
+    margin-right: 15px;
+    border: var(--border-width) solid var(--border-color);
+    background-color: var(--secondary-color);
+    color: var(--text-main);
+    font-weight: 700;
     cursor: pointer;
-    transition: var(--transition);
-    background-color: #fafafa;
+    box-shadow: 2px 2px 0px var(--border-color);
+    transition: all 0.1s;
+}
+
+.form-control-file::file-selector-button:hover {
+    transform: translate(1px, 1px);
+    box-shadow: 1px 1px 0px var(--border-color);
+}
+
+/* --- 7. Tombol (Buttons) --- */
+.btn {
+    padding: 12px 30px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    font-family: 'Space Grotesk', sans-serif;
+    text-transform: uppercase;
+    border: var(--border-width) solid var(--border-color);
+    cursor: pointer;
+    display: inline-block;
+    text-align: center;
+    box-shadow: 5px 5px 0px var(--border-color);
+    transition: all 0.1s;
     position: relative;
 }
 
-.drop-zone:hover, .drop-zone.dragover {
-    border-color: #3498db;
-    background-color: rgba(52, 152, 219, 0.05);
+.btn:active {
+    transform: translate(4px, 4px);
+    box-shadow: 1px 1px 0px var(--border-color);
 }
 
-.drop-zone-input {
-    position: absolute;
+.btn-primary {
+    background-color: var(--primary-color); /* Kuning */
+    color: var(--text-main);
+}
+
+.btn-primary:hover {
+    background-color: #ffe600;
+    transform: translate(-2px, -2px);
+    box-shadow: 7px 7px 0px var(--border-color);
+}
+
+.btn-success {
+    background-color: var(--success-color); /* Hijau */
+    color: var(--text-main);
+}
+
+.btn-success:hover {
+    background-color: #00c853;
+    transform: translate(-2px, -2px);
+    box-shadow: 7px 7px 0px var(--border-color);
+}
+
+/* --- 8. Alerts / Flash Messages --- */
+.alert {
+    padding: 20px;
+    margin-bottom: 30px;
+    border: var(--border-width) solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+    box-shadow: 5px 5px 0px var(--border-color);
+}
+
+.alert-danger {
+    background-color: var(--danger-color);
+    color: #fff;
+}
+
+.alert-success {
+    background-color: var(--success-color);
+    color: #000;
+}
+
+.alert-close {
+    background: none;
+    border: 2px solid currentColor;
+    width: 30px;
+    height: 30px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.alert-close:hover {
+    background-color: rgba(0,0,0,0.1);
+}
+
+/* --- 9. Visualisasi & Hasil --- */
+.result-block {
+    padding: 20px;
+    background-color: #fff;
+    border: var(--border-width) solid var(--border-color);
+    margin-top: 2rem;
+    box-shadow: 4px 4px 0px var(--border-color);
+    background-image: linear-gradient(45deg, #f0f0f0 25%, transparent 25%, transparent 75%, #f0f0f0 75%, #f0f0f0), linear-gradient(45deg, #f0f0f0 25%, transparent 25%, transparent 75%, #f0f0f0 75%, #f0f0f0);
+    background-size: 20px 20px;
+    background-position: 0 0, 10px 10px;
+}
+
+.result-block h3 {
+    background-color: #fff;
+    border: var(--border-width) solid var(--border-color);
+    padding: 10px;
+    display: inline-block;
+    margin: 0;
+    font-size: 2rem;
+}
+
+.charts-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.chart-box {
+    flex: 1;
+    min-width: 300px;
+    padding: 20px;
+    border: var(--border-width) solid var(--border-color);
+    box-shadow: 5px 5px 0px var(--border-color);
+    text-align: center;
+    background: #fff;
+}
+
+.chart-box h3 {
+    background-color: var(--accent-color);
+    color: #fff;
+    display: inline-block;
+    padding: 5px 10px;
+    border: 2px solid var(--border-color);
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+}
+
+.table-responsive {
+    max-height: 500px;
+    overflow-y: auto;
+    border: var(--border-width) solid var(--border-color);
+    box-shadow: 5px 5px 0px var(--border-color);
+}
+
+/* Table Styling */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.table th, .table td {
+    border: 2px solid var(--border-color);
+    padding: 12px;
+    text-align: left;
+}
+.table th {
+    background-color: var(--primary-color);
+    font-family: 'Space Grotesk', sans-serif;
+    text-transform: uppercase;
+}
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #f9f9f9;
+}
+
+/* --- 10. Spinner --- */
+.spinner-overlay {
+    display: none;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    opacity: 0;
-    cursor: pointer;
-}
-
-.drop-zone-content {
-    pointer-events: none; /* Allow clicks to pass to input */
-}
-
-.drop-zone-icon {
-    font-size: 3rem;
-    color: #3498db;
-    margin-bottom: 15px;
-}
-
-.drop-zone-text {
-    font-weight: 500;
-    color: var(--text-light);
-}
-
-/* --- 6. Buttons --- */
-.btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    padding: 14px 28px;
-    border: none;
-    border-radius: var(--radius-sm);
-    font-weight: 600;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: var(--transition);
-    color: white;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.btn-primary {
-    background: var(--primary-gradient);
-    box-shadow: 0 4px 15px rgba(52, 152, 219, 0.4);
-}
-
-.btn-success {
-    background: var(--success-gradient);
-    box-shadow: 0 4px 15px rgba(46, 204, 113, 0.4);
-}
-
-.btn:hover {
-    transform: translateY(-2px);
-    filter: brightness(1.1);
-}
-
-.btn:active {
-    transform: translateY(0);
-}
-
-/* --- 7. Results & Alerts --- */
-.result-highlight {
-    background: #f8f9fa;
-    border-left: 5px solid #3498db;
-    padding: 20px;
-    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-    margin-top: 20px;
-}
-
-.alert {
-    padding: 16px 20px;
-    border-radius: var(--radius-sm);
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-weight: 500;
-    animation: slideDown 0.4s ease-out;
-}
-
-@keyframes slideDown {
-    from { opacity: 0; transform: translateY(-10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-.alert-danger { background-color: #fcebea; color: #c0392b; border: 1px solid #fadbd8; }
-.alert-success { background-color: #eafaf1; color: #27ae60; border: 1px solid #d5f5e3; }
-
-.alert-close {
-    background: none;
-    border: none;
-    font-size: 1.2rem;
-    cursor: pointer;
-    color: inherit;
-    opacity: 0.6;
-}
-
-/* --- 8. Spinner --- */
-.spinner-overlay {
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(255,255,255,0.8);
-    backdrop-filter: blur(5px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    background-color: rgba(255, 255, 255, 0.9);
     z-index: 9999;
-    transition: opacity 0.3s;
+    align-items: center;
+    justify-content: center;
+}
+
+.spinner-container {
+    text-align: center;
+    background: var(--primary-color);
+    padding: 40px;
+    border: var(--border-width) solid var(--border-color);
+    box-shadow: 10px 10px 0px var(--border-color);
+}
+
+.spinner-container p {
+    margin-top: 20px;
+    font-weight: 800;
+    font-family: 'Space Grotesk', sans-serif;
 }
 
 .spinner {
-    width: 50px; height: 50px;
-    border: 4px solid rgba(52, 152, 219, 0.2);
-    border-top: 4px solid #3498db;
+    width: 60px;
+    height: 60px;
+    border: 8px solid #fff;
+    border-left-color: var(--border-color);
+    border-bottom-color: var(--border-color);
     border-radius: 50%;
-    animation: spin 1s linear infinite;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto;
 }
 
-@keyframes spin { to { transform: rotate(360deg); } }
-.hidden { display: none; opacity: 0; pointer-events: none; }
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
 
-/* --- 9. Responsive --- */
+.hidden { display: none !important; }
+
+/* --- 11. Responsive Mobile --- */
+.hamburger-btn {
+    display: none;
+    background: var(--secondary-color);
+    border: var(--border-width) solid var(--border-color);
+    color: var(--text-main);
+    font-size: 1.5rem;
+    padding: 5px 10px;
+    box-shadow: 3px 3px 0px var(--border-color);
+    cursor: pointer;
+}
+
+.hamburger-btn:active {
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0px var(--border-color);
+}
+
 @media (max-width: 768px) {
-    .navbar-nav {
-        display: none; /* Mobile menu logic needed in HTML/JS */
-    }
     .hamburger-btn { display: block; }
-    .card { padding: 25px; }
     
-    /* Simple Mobile Menu Override */
-    .navbar-nav.active {
-        display: flex;
-        flex-direction: column;
+    .navbar-container { padding: 0 20px; }
+    
+    .navbar-nav-container {
         position: absolute;
         top: var(--navbar-height);
         left: 0;
         width: 100%;
-        background: var(--navbar-bg);
-        padding: 20px;
+        background-color: var(--card-bg);
+        border-bottom: var(--border-width) solid var(--border-color);
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease-out;
     }
+
+    .navbar-nav-container.active {
+        max-height: 300px;
+        border-top: var(--border-width) solid var(--border-color);
+    }
+
+    .navbar-nav {
+        flex-direction: column;
+        padding: 20px;
+        gap: 10px;
+    }
+
+    .navbar-nav li a {
+        display: block;
+        border: 2px solid var(--border-color);
+        text-align: center;
+        background-color: #f9f9f9;
+    }
+    
+    .page-header h1 { font-size: 1.8rem; }
+    
+    .charts-grid { flex-direction: column; }
 }

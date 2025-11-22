@@ -1,199 +1,169 @@
 {% extends 'layout.html' %}
 
 {% block title %}Analisis Sentimen{% endblock %}
+
 {% block page_title %}Analisis Sentimen{% endblock %}
 
 {% block content %}
-    <!-- Flash Messages -->
+    <p style="font-size: 1.1em; margin-top: -1rem; margin-bottom: 2rem; font-weight: 500;">
+        Gunakan bagian ini untuk menganalisis sentimen dari teks tunggal atau mengunggah file untuk analisis massal.
+    </p>
+
+    <!-- Menampilkan Flash Messages -->
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
             {% for category, message in messages %}
-                <div class="alert alert-{{ category }}">
-                    <span><i class="fas {{ 'fa-exclamation-triangle' if category == 'danger' else 'fa-check-circle' }} margin-right: 10px;"></i> {{ message }}</span>
+                <div class="alert alert-{{ category }}" role="alert">
+                    <div>
+                        <i class="alert-icon fas {% if category == 'danger' %}fa-exclamation-triangle{% else %}fa-check-circle{% endif %}"></i>
+                        {{ message }}
+                    </div>
                     <button type="button" class="alert-close">&times;</button>
                 </div>
             {% endfor %}
         {% endif %}
     {% endwith %}
 
-    <div style="display: grid; grid-template-columns: 1fr; gap: 2rem;">
-        
-        <!-- Card 1: Single Text Analysis -->
-        <div class="card">
-            <h2><i class="fas fa-keyboard" style="color: #3498db; margin-right: 10px;"></i> Analisis Teks Tunggal</h2>
-            <p>Masukkan kalimat untuk mendeteksi sentimen secara instan.</p>
+    {# Embed JSON data #}
+    <script id="sentiment-data" type="application/json">{% if sentiment_counts %}{{ sentiment_counts | tojson | safe }}{% else %}null{% endif %}</script>
 
-            <form method="POST" action="{{ url_for('analysis') }}">
-                <div class="form-group">
-                    <textarea name="text_input" rows="5" class="form-control" 
-                              placeholder="Contoh: Pelayanan restoran ini sangat memuaskan..." required>{{ text }}</textarea>
-                </div>
-                <div style="text-align: right;">
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-magic"></i> Analisis Sekarang
-                    </button>
-                </div>
-            </form>
+    <!-- Bagian 1: Analisis Teks Tunggal -->
+    <div class="card">
+        <h2>Analisis Teks Tunggal</h2>
+        <p>Masukkan sebuah kalimat atau paragraf dalam bahasa Indonesia untuk dianalisis.</p>
 
-            {% if prediction %}
-            <div class="result-highlight">
-                <h4 style="margin-bottom: 0.5rem; color: #7f8c8d; font-size: 0.9rem; text-transform: uppercase;">Hasil Prediksi</h4>
-                <div style="display: flex; align-items: center; gap: 15px;">
-                    <span style="font-size: 2rem; font-weight: 800; 
-                        color: {% if prediction == 'Positif' %}#2ecc71{% elif prediction == 'Negatif' %}#e74c3c{% else %}#95a5a6{% endif %};">
-                        {{ prediction }}
-                    </span>
-                    <i class="fas 
-                        {% if prediction == 'Positif' %}fa-smile{% elif prediction == 'Negatif' %}fa-frown{% else %}fa-meh{% endif %}" 
-                        style="font-size: 2rem; opacity: 0.5;"></i>
-                </div>
+        <form method="POST" action="{{ url_for('analysis') }}">
+            <div class="form-group">
+                <label for="text_input_area">Teks Anda:</label>
+                <textarea name="text_input" id="text_input_area" rows="6" class="form-control"
+                          placeholder="Ketik atau tempel teks Anda di sini...">{{ text }}</textarea>
             </div>
-            {% endif %}
-        </div>
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-bolt"></i> Analisis Teks
+            </button>
+        </form>
 
-        <!-- Card 2: Bulk File Analysis (Drag & Drop) -->
-        <div class="card">
-            <h2><i class="fas fa-file-upload" style="color: #2ecc71; margin-right: 10px;"></i> Analisis Massal (File)</h2>
-            <p>Upload file CSV atau Excel untuk menganalisis ribuan ulasan sekaligus.</p>
-            
-            <form method="POST" enctype="multipart/form-data" action="{{ url_for('analysis') }}" id="bulk-form">
-                
-                <!-- Drag & Drop Zone -->
-                <div class="form-group">
-                    <div class="drop-zone" id="drop-zone">
-                        <div class="drop-zone-content">
-                            <i class="fas fa-cloud-upload-alt drop-zone-icon"></i>
-                            <p class="drop-zone-text">Drag & Drop file di sini atau klik untuk memilih</p>
-                            <p style="font-size: 0.8rem; color: #aaa;">Support: .csv, .xlsx</p>
-                            <div id="file-name-display" style="margin-top: 10px; font-weight: bold; color: #3498db;"></div>
-                        </div>
-                        <input type="file" name="file" id="file" class="drop-zone-input" accept=".csv, .xlsx" required>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="text_column" class="form-label">Nama Kolom Teks</label>
-                    <input type="text" name="text_column" id="text_column" class="form-control" placeholder="Contoh: review_text" required>
-                </div>
-
-                <button type="submit" class="btn btn-success" style="width: 100%;">
-                    <i class="fas fa-rocket"></i> Proses File
-                </button>
-            </form>
-        </div>
-
-        <!-- Results Section -->
-        {% if sentiment_counts %}
-        <div class="card" id="results-section">
-            <h2><i class="fas fa-chart-pie" style="color: #9b59b6; margin-right: 10px;"></i> Hasil Analisis</h2>
-            
-            <div style="display: flex; flex-wrap: wrap; gap: 30px; margin-top: 30px;">
-                <div style="flex: 1; min-width: 300px; background: #f9f9f9; padding: 20px; border-radius: 12px;">
-                    <h3 style="text-align: center; font-size: 1.1rem;">Distribusi Sentimen</h3>
-                    <canvas id="barChartCanvas"></canvas>
-                </div>
-                <div style="flex: 1; min-width: 300px; background: #f9f9f9; padding: 20px; border-radius: 12px;">
-                    <h3 style="text-align: center; font-size: 1.1rem;">Proporsi</h3>
-                    <div style="height: 250px; position: relative;">
-                        <canvas id="pieChartCanvas"></canvas>
-                    </div>
-                </div>
+        <!-- Hasil Prediksi -->
+        {% if prediction %}
+            <div class="result-block">
+                <h2 style="font-size: 1.2rem; margin-bottom: 1rem; border: none; background: none; padding: 0;">HASIL ANALISIS:</h2>
+                <h3>{{ prediction }}</h3>
             </div>
-
-            {% if wordcloud %}
-            <div style="margin-top: 40px; text-align: center;">
-                <h3>Word Cloud</h3>
-                <img src="data:image/png;base64,{{ wordcloud }}" alt="Word Cloud" 
-                     style="max-width: 100%; height: auto; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
-            </div>
-            {% endif %}
-            
-            <div style="margin-top: 40px;">
-                 <h3>Data Preview</h3>
-                 <div style="overflow-x: auto; border: 1px solid #eee; border-radius: 8px;">
-                     {{ results_table|safe }}
-                 </div>
-            </div>
-        </div>
         {% endif %}
     </div>
 
-    <!-- Data Embedding -->
-    <script id="sentiment-data" type="application/json">
-        {% if sentiment_counts %}{{ sentiment_counts | tojson | safe }}{% else %}null{% endif %}
-    </script>
+    <!-- Bagian 2: Analisis File Massal -->
+    <div class="card">
+        <h2>Analisis File (CSV/XLSX)</h2>
+        <p>Upload file untuk analisis sentimen massal.</p>
+        
+        <form method="POST" enctype="multipart/form-data" action="{{ url_for('analysis') }}" id="file-analysis-form">
+            <div class="form-group">
+                <label for="file">Pilih File:</label>
+                <input type="file" name="file" id="file" class="form-control-file" required>
+            </div>
+            <div class="form-group">
+                <label for="text_column">Nama Kolom Teks:</label>
+                <input type="text" name="text_column" id="text_column" class="form-control" placeholder="Contoh: 'tweet_text'" required>
+            </div>
+            <button type="submit" class="btn btn-success">
+                <i class="fas fa-file-upload"></i> Upload & Proses
+            </button>
+        </form>
+
+        {% if sentiment_counts %}
+            <div class="results-container" style="margin-top: 3rem;">
+                <h2 style="font-size: 2rem; margin-bottom: 20px; text-decoration: underline;">VISUALISASI HASIL</h2>
+                <div class="charts-grid">
+                    
+                    <!-- Bar Chart -->
+                    <div class="chart-box">
+                        <h3>Distribusi Sentimen</h3>
+                        <canvas id="barChartCanvas"></canvas>
+                    </div>
+                    
+                    <!-- Pie Chart -->
+                    <div class="chart-box">
+                        <h3>Proporsi Sentimen</h3>
+                        <div style="position: relative; max-height: 400px; margin: auto;">
+                            <canvas id="pieChartCanvas"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                {% if wordcloud %}
+                <div class="chart-box" style="width: 100%; margin-bottom: 30px;">
+                    <h3>Word Cloud</h3>
+                    <img src="data:image/png;base64,{{ wordcloud }}" alt="Word Cloud" style="max-width: 100%; border: 2px solid #000;">
+                </div>
+                {% endif %}
+
+                <h2 style="font-size: 1.5rem; margin-top: 2rem;">Data Tabel</h2>
+                <div class="table-responsive">
+                    {{ results_table|safe }}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
 {% endblock %}
 
+<!-- Script Khusus untuk Chart Neo-Brutalism -->
 {% block scripts %}
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // --- 1. Drag & Drop Interface Logic ---
-        const dropZone = document.getElementById('drop-zone');
-        const fileInput = document.getElementById('file');
-        const fileNameDisplay = document.getElementById('file-name-display');
-        const bulkForm = document.getElementById('bulk-form');
+        const fileForm = document.getElementById('file-analysis-form');
+        const spinnerOverlay = document.getElementById('spinner-overlay');
 
-        if(dropZone && fileInput) {
-            // Highlight on drag
-            ['dragenter', 'dragover'].forEach(eventName => {
-                dropZone.addEventListener(eventName, (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    dropZone.classList.add('dragover');
-                }, false);
-            });
-
-            ['dragleave', 'drop'].forEach(eventName => {
-                dropZone.addEventListener(eventName, (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    dropZone.classList.remove('dragover');
-                }, false);
-            });
-
-            // Handle File Drop
-            dropZone.addEventListener('drop', (e) => {
-                const dt = e.dataTransfer;
-                const files = dt.files;
-                fileInput.files = files; // Assign dropped files to input
-                updateFileName(files);
-            });
-
-            // Handle Click/Change
-            fileInput.addEventListener('change', () => {
-                updateFileName(fileInput.files);
-            });
-
-            function updateFileName(files) {
-                if (files.length > 0) {
-                    fileNameDisplay.textContent = `File dipilih: ${files[0].name}`;
-                    fileNameDisplay.style.opacity = '1';
-                }
-            }
-        }
-
-        // --- 2. Form Submit Spinner ---
-        if(bulkForm) {
-            bulkForm.addEventListener('submit', () => {
-                if(fileInput.value && document.getElementById('text_column').value) {
-                    window.showSpinner();
+        if (fileForm) {
+            fileForm.addEventListener('submit', function() {
+                const fileInput = document.getElementById('file');
+                const columnInput = document.getElementById('text_column');
+                if (fileInput.value && columnInput.value && spinnerOverlay) {
+                    spinnerOverlay.style.display = 'flex'; // Gunakan flex agar center
+                    spinnerOverlay.classList.remove('hidden');
                 }
             });
         }
 
-        // --- 3. Chart Logic (Refined) ---
         const countsEl = document.getElementById('sentiment-data');
         let counts = null;
-        try { counts = JSON.parse(countsEl.textContent || 'null'); } catch(e) {}
 
-        if (counts) {
+        if (countsEl) {
+            try {
+                counts = JSON.parse(countsEl.textContent || 'null');
+            } catch (e) {
+                console.error("Gagal mem-parsing data sentimen:", e);
+                counts = null;
+            }
+        }
+        
+        if (counts && Object.keys(counts).length > 0) {
+            // Setup Data
             const labels = ['Positif', 'Netral', 'Negatif'];
-            const data = [counts['Positif'] || 0, counts['Netral'] || 0, counts['Negatif'] || 0];
-            const colors = ['#2ecc71', '#95a5a6', '#e74c3c'];
+            const data = [
+                counts['Positif'] || 0,
+                counts['Netral'] || 0,
+                counts['Negatif'] || 0
+            ];
+            
+            // Warna Neo-Brutalism
+            const bgColors = [
+                '#00E676', // Hijau
+                '#d1d1d1', // Abu
+                '#FF5252'  // Merah
+            ];
+            
+            const borderColors = '#000000'; // Border Hitam Pekat
+            const borderWidth = 3;          // Border Tebal
 
-            // Bar Chart
+            // Config Font
+            Chart.defaults.font.family = "'Space Grotesk', sans-serif";
+            Chart.defaults.color = '#000';
+
+            // 4. Buat Bar Chart
             const barCtx = document.getElementById('barChartCanvas');
-            if(barCtx) {
+            if (barCtx) {
                 new Chart(barCtx, {
                     type: 'bar',
                     data: {
@@ -201,48 +171,57 @@
                         datasets: [{
                             label: 'Jumlah',
                             data: data,
-                            backgroundColor: colors,
-                            borderRadius: 6
+                            backgroundColor: bgColors,
+                            borderColor: borderColors,
+                            borderWidth: borderWidth,
+                            hoverOffset: 4
                         }]
                     },
                     options: {
                         responsive: true,
-                        plugins: { legend: { display: false } },
+                        plugins: {
+                            legend: { display: false }
+                        },
                         scales: {
-                            y: { beginAtZero: true, grid: { display: true, color: '#eee' } },
-                            x: { grid: { display: false } }
+                            y: {
+                                beginAtZero: true,
+                                grid: { color: '#000', lineWidth: 1 },
+                                ticks: { color: '#000', font: { weight: 'bold' } }
+                            },
+                            x: {
+                                grid: { display: false },
+                                ticks: { color: '#000', font: { weight: 'bold' } }
+                            }
                         }
                     }
                 });
             }
 
-            // Pie Chart
+            // 5. Buat Pie Chart
             const pieCtx = document.getElementById('pieChartCanvas');
-            if(pieCtx) {
+            if (pieCtx) {
                 new Chart(pieCtx, {
-                    type: 'doughnut', // Modern doughnut style
+                    type: 'pie',
                     data: {
                         labels: labels,
                         datasets: [{
                             data: data,
-                            backgroundColor: colors,
-                            borderWidth: 0,
-                            hoverOffset: 10
+                            backgroundColor: bgColors,
+                            borderColor: borderColors,
+                            borderWidth: borderWidth
                         }]
                     },
                     options: {
                         responsive: true,
-                        maintainAspectRatio: false,
-                        cutout: '60%',
                         plugins: {
-                            legend: { position: 'bottom' }
+                            legend: {
+                                position: 'bottom',
+                                labels: { color: '#000', font: { weight: 'bold' } }
+                            }
                         }
                     }
                 });
             }
-            
-            // Scroll to results if they exist
-            document.getElementById('results-section').scrollIntoView({ behavior: 'smooth' });
         }
     });
 </script>
