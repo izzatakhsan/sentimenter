@@ -74,6 +74,14 @@
         {% if sentiment_counts %}
             <div class="results-container" style="margin-top: 3rem;">
                 <h2 style="font-size: 2rem; margin-bottom: 20px; text-decoration: underline;">VISUALISASI HASIL</h2>
+
+                {% if result_filename %}
+                <div style="margin-bottom: 20px;">
+                    <a href="{{ url_for('download_file', filename=result_filename) }}" class="btn btn-primary">
+                        <i class="fas fa-download"></i> Download Hasil Analisis
+                    </a>
+                </div>
+                {% endif %}
                 <div class="charts-grid">
                     
                     <!-- Bar Chart -->

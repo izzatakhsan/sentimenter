@@ -1,0 +1,39 @@
+{% extends 'layout.html' %}
+
+{% block title %}Riwayat Analisis{% endblock %}
+{% block page_title %}Riwayat Analisis{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>Riwayat Analisis File Anda</h2>
+
+    {% if analyses %}
+    <div class="table-responsive">
+        <table class="table table-striped table-hover" style="border: 0;">
+            <thead>
+                <tr>
+                    <th>Waktu Analisis</th>
+                    <th>Nama File Asli</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for analysis in analyses %}
+                <tr>
+                    <td>{{ analysis.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                    <td>{{ analysis.original_filename }}</td>
+                    <td>
+                        <a href="{{ url_for('download_file', filename=analysis.result_filename) }}" class="btn btn-primary btn-sm">
+                            <i class="fas fa-download"></i> Unduh Hasil
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p>Anda belum memiliki riwayat analisis file.</p>
+    {% endif %}
+</div>
+{% endblock %}

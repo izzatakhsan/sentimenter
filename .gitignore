@@ -1,0 +1,5 @@
+instance/
+gunicorn_output.log
+__pycache__/
+results/
+app.db

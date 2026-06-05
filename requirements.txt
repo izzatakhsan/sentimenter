@@ -7,3 +7,6 @@ openpyxl
 werkzeug
 wordcloud
 gunicorn
+Flask-SQLAlchemy
+Flask-Login
+Werkzeug
