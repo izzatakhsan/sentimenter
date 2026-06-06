@@ -6,4 +6,7 @@ matplotlib
 openpyxl
 werkzeug
 wordcloud
-gunicorn
+psycopg2-binary
+python-dotenv
+flask-limiter
+flask-wtf

@@ -1,26 +1,35 @@
-/* --- 1. Import Font & Variabel Global Neo-Brutalism --- */
+/* --- 1. Import Font & Variabel Global Playful Geometric --- */
 :root {
-    /* Palette Warna Neo-Brutalism */
-    --bg-color: #f0f0f0;         /* Abu-abu sangat muda untuk background */
+    /* Palette Warna Playful Geometric */
+    --bg-color: #FFFDF5;         /* Warm Cream (Paper feel) */
     --card-bg: #ffffff;          /* Putih untuk kartu */
-    --border-color: #000000;     /* Hitam pekat untuk border */
+    --border-color: #1E293B;     /* Slate 800 (Softer than black) */
     
-    --primary-color: #FFEB3B;    /* Kuning Terang (Main Action) */
-    --secondary-color: #FF90E8;  /* Pink Neon (Accent) */
-    --accent-color: #23A6D5;     /* Cyan (Accent 2) */
-    --success-color: #00E676;    /* Hijau Neon */
+    --accent-color: #8B5CF6;     /* Vivid Violet (Primary Action) */
+    --secondary-color: #F472B6;  /* Hot Pink (Playful pop) */
+    --tertiary-color: #FBBF24;   /* Amber/Yellow (Optimism) */
+    --quaternary-color: #34D399; /* Emerald/Mint (Freshness) */
+    --muted-color: #F1F5F9;      /* Slate 100 */
+    --muted-foreground: #64748B; /* Slate 500 */
+    
+    --success-color: #34D399;    /* Hijau Mint */
     --danger-color: #FF5252;     /* Merah Terang */
     
-    --text-main: #000000;
-    --text-muted: #444444;
+    --text-main: #1E293B;        /* Slate 800 */
+    --text-muted: #64748B;       /* Slate 500 */
 
-    /* Dimensi Brutal */
-    --border-width: 3px;
-    --shadow-offset: 5px;
-    --radius: 0px;               /* Sudut tajam (bisa diubah ke 4px-8px jika ingin sedikit lengkung) */
+    /* Dimensi & Radius Playful Geometric */
+    --border-width: 2px;
+    --radius-sm: 8px;
+    --radius-md: 16px;
+    --radius-lg: 24px;
+    --radius-full: 9999px;
+    
+    --shadow-offset: 4px;
     
     --navbar-height: 80px;
-    --transition-speed: 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    --transition-speed: 0.3s;
+    --transition-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 /* --- 2. Reset & Setup Global --- */
@@ -31,19 +40,18 @@
 }
 
 body {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
     background-color: var(--bg-color);
-    background-image: radial-gradient(#000 1px, transparent 1px); /* Pola titik-titik halus */
-    background-size: 20px 20px;
+    background-image: radial-gradient(rgba(30, 41, 59, 0.07) 1.5px, transparent 1.5px);
+    background-size: 24px 24px;
     color: var(--text-main);
     line-height: 1.6;
 }
 
 h1, h2, h3 {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: 'Outfit', system-ui, sans-serif;
     color: var(--text-main);
-    font-weight: 700;
-    text-transform: uppercase;
+    font-weight: 800;
     letter-spacing: -0.5px;
 }
 
@@ -79,41 +87,84 @@ a {
 }
 
 .navbar-brand {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: 'Outfit', sans-serif;
     font-size: 1.8rem;
     font-weight: 800;
-    color: var(--text-main);
-    background-color: var(--primary-color);
+    color: #fff;
+    background-color: var(--accent-color); /* Violet */
     padding: 5px 15px;
     border: var(--border-width) solid var(--border-color);
     box-shadow: 4px 4px 0px var(--border-color);
-    transition: transform 0.1s;
+    border-radius: var(--radius-sm);
+    transition: all 0.3s var(--transition-bounce);
 }
 
 .navbar-brand:hover {
-    transform: translate(2px, 2px);
-    box-shadow: 2px 2px 0px var(--border-color);
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0px var(--border-color);
+    color: #fff;
+}
+
+.navbar-nav-container {
+    display: flex;
+    align-items: center;
+    gap: 30px;
 }
 
 .navbar-nav {
     list-style-type: none;
     display: flex;
+    align-items: center;
     gap: 20px;
 }
 
 .navbar-nav li a {
-    font-family: 'Space Grotesk', sans-serif;
-    padding: 8px 16px;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    padding: 8px 20px;
     border: var(--border-width) solid transparent; /* Invisible border untuk layout */
-    transition: all var(--transition-speed);
-    font-size: 1.1rem;
+    border-radius: var(--radius-full);
+    transition: all 0.3s var(--transition-bounce);
+    font-size: 1rem;
+    display: inline-block;
 }
 
 .navbar-nav li a:hover {
-    background-color: var(--secondary-color);
-    border: var(--border-width) solid var(--border-color);
-    box-shadow: 4px 4px 0px var(--border-color);
+    background-color: var(--tertiary-color); /* Amber on hover */
+    border-color: var(--border-color);
+    box-shadow: 3px 3px 0px var(--border-color);
     transform: translate(-2px, -2px);
+}
+
+.user-greeting {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    background-color: var(--secondary-color); /* Hot Pink */
+    color: #fff;
+    padding: 6px 16px;
+    border: var(--border-width) solid var(--border-color);
+    box-shadow: 3px 3px 0px var(--border-color);
+    border-radius: var(--radius-sm);
+    text-transform: uppercase;
+}
+
+.navbar-nav li a.logout-btn:hover {
+    background-color: var(--danger-color);
+    border-color: var(--border-color);
+    color: #fff;
+}
+
+.navbar-nav li a.register-nav-btn {
+    background-color: var(--quaternary-color); /* Emerald */
+    border: var(--border-width) solid var(--border-color);
+    box-shadow: 3px 3px 0px var(--border-color);
+    color: var(--text-main);
+}
+
+.navbar-nav li a.register-nav-btn:hover {
+    background-color: var(--secondary-color); /* Hot Pink */
+    color: #fff;
 }
 
 /* --- 4. Layout Konten --- */
@@ -130,13 +181,14 @@ a {
     background-color: var(--accent-color);
     border: var(--border-width) solid var(--border-color);
     box-shadow: var(--shadow-offset) var(--shadow-offset) 0px var(--border-color);
-    padding: 20px;
+    border-radius: var(--radius-md);
+    padding: 20px 30px;
     display: inline-block;
 }
 
 .page-header h1 {
     margin: 0;
-    font-size: 2.5rem;
+    font-size: 2.2rem;
     color: #fff;
     text-shadow: 2px 2px 0px var(--border-color);
 }
@@ -147,24 +199,27 @@ a {
     border: var(--border-width) solid var(--border-color);
     padding: 30px;
     margin-bottom: 40px;
-    box-shadow: var(--shadow-offset) var(--shadow-offset) 0px var(--border-color);
-    transition: transform var(--transition-speed);
+    border-radius: var(--radius-md);
+    box-shadow: 8px 8px 0px #E2E8F0;
+    transition: all 0.3s var(--transition-bounce);
 }
 
 .card:hover {
-    /* Efek hover halus */
-    transform: translate(-2px, -2px);
-    box-shadow: 7px 7px 0px var(--border-color);
+    transform: rotate(-0.5deg) scale(1.01);
+    box-shadow: 10px 10px 0px #E2E8F0;
 }
 
 .card h2 {
-    font-size: 1.8rem;
+    font-size: 1.5rem;
     margin-bottom: 1.5rem;
-    border-bottom: var(--border-width) solid var(--border-color);
-    padding-bottom: 10px;
+    border: var(--border-width) solid var(--border-color);
+    border-radius: var(--radius-sm);
+    box-shadow: 3px 3px 0px var(--border-color);
+    background-color: var(--tertiary-color);
+    color: var(--text-main);
     display: inline-block;
-    background-color: var(--primary-color);
-    padding: 5px 15px;
+    padding: 6px 16px;
+    text-transform: uppercase;
 }
 
 /* --- 6. Form & Input --- */
@@ -176,27 +231,30 @@ a {
     display: block;
     margin-bottom: 10px;
     font-weight: 700;
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 1.1rem;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-main);
 }
 
 .form-control, .form-control-file {
     width: 100%;
     padding: 15px;
     font-size: 1rem;
-    font-family: 'Inter', sans-serif;
-    border: var(--border-width) solid var(--border-color);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    border: var(--border-width) solid #CBD5E1;
     background-color: #fff;
-    border-radius: 0; /* Kotak tajam */
-    box-shadow: 4px 4px 0px rgba(0,0,0,0.1);
-    transition: all 0.2s;
+    border-radius: var(--radius-sm);
+    box-shadow: 4px 4px 0px transparent;
+    transition: all 0.2s ease;
+    color: var(--text-main);
 }
 
 .form-control:focus {
     outline: none;
-    box-shadow: 6px 6px 0px var(--border-color);
-    background-color: #fffef0;
-    transform: translate(-2px, -2px);
+    border-color: var(--accent-color);
+    box-shadow: 4px 4px 0px var(--accent-color);
 }
 
 textarea.form-control {
@@ -206,63 +264,89 @@ textarea.form-control {
 
 /* Kustomisasi Input File Button */
 .form-control-file::file-selector-button {
-    padding: 8px 15px;
+    padding: 8px 20px;
     margin-right: 15px;
     border: var(--border-width) solid var(--border-color);
-    background-color: var(--secondary-color);
+    background-color: var(--tertiary-color);
     color: var(--text-main);
+    font-family: 'Outfit', sans-serif;
     font-weight: 700;
     cursor: pointer;
+    border-radius: var(--radius-full);
     box-shadow: 2px 2px 0px var(--border-color);
-    transition: all 0.1s;
+    transition: all var(--transition-speed) var(--transition-bounce);
 }
 
 .form-control-file::file-selector-button:hover {
-    transform: translate(1px, 1px);
-    box-shadow: 1px 1px 0px var(--border-color);
+    transform: translate(-1px, -1px);
+    box-shadow: 3px 3px 0px var(--border-color);
+    background-color: var(--secondary-color);
 }
 
 /* --- 7. Tombol (Buttons) --- */
 .btn {
     padding: 12px 30px;
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 700;
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: 'Outfit', sans-serif;
     text-transform: uppercase;
     border: var(--border-width) solid var(--border-color);
     cursor: pointer;
     display: inline-block;
     text-align: center;
-    box-shadow: 5px 5px 0px var(--border-color);
-    transition: all 0.1s;
+    border-radius: var(--radius-full);
+    background-color: transparent;
+    color: var(--text-main);
+    box-shadow: 4px 4px 0px var(--border-color);
+    transition: all 0.3s var(--transition-bounce);
     position: relative;
 }
 
+.btn:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0px var(--border-color);
+    background-color: var(--tertiary-color); /* Secondary button fills yellow on hover */
+}
+
 .btn:active {
-    transform: translate(4px, 4px);
-    box-shadow: 1px 1px 0px var(--border-color);
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0px var(--border-color);
 }
 
 .btn-primary {
-    background-color: var(--primary-color); /* Kuning */
-    color: var(--text-main);
+    background-color: var(--accent-color); /* Violet */
+    color: #ffffff;
+    box-shadow: 4px 4px 0px var(--border-color);
 }
 
 .btn-primary:hover {
-    background-color: #ffe600;
+    background-color: #7c3aed; /* Darker violet */
     transform: translate(-2px, -2px);
-    box-shadow: 7px 7px 0px var(--border-color);
+    box-shadow: 6px 6px 0px var(--border-color);
+    color: #ffffff;
+}
+
+.btn-primary:active {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0px var(--border-color);
 }
 
 .btn-success {
-    background-color: var(--success-color); /* Hijau */
+    background-color: var(--quaternary-color); /* Mint */
     color: var(--text-main);
+    box-shadow: 4px 4px 0px var(--border-color);
 }
 
 .btn-success:hover {
-    background-color: #00c853;
+    background-color: #10b981; /* Darker mint */
     transform: translate(-2px, -2px);
-    box-shadow: 7px 7px 0px var(--border-color);
+    box-shadow: 6px 6px 0px var(--border-color);
+    color: var(--text-main);
+}
+
+.btn-success:active {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0px var(--border-color);
 }
 
 /* --- 8. Alerts / Flash Messages --- */
@@ -453,26 +537,42 @@ textarea.form-control {
         background-color: var(--card-bg);
         border-bottom: var(--border-width) solid var(--border-color);
         max-height: 0;
-        overflow: hidden;
+        overflow-y: auto;
         transition: max-height 0.3s ease-out;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
     }
 
     .navbar-nav-container.active {
-        max-height: 300px;
+        max-height: 500px;
         border-top: var(--border-width) solid var(--border-color);
     }
 
     .navbar-nav {
         flex-direction: column;
-        padding: 20px;
+        padding: 15px 20px;
         gap: 10px;
+        width: 100%;
+    }
+    
+    .navbar-nav.auth-nav {
+        border-top: 2px dashed var(--border-color);
+        padding-top: 15px;
     }
 
     .navbar-nav li a {
         display: block;
-        border: 2px solid var(--border-color);
+        border: var(--border-width) solid var(--border-color);
         text-align: center;
         background-color: #f9f9f9;
+        box-shadow: 3px 3px 0px var(--border-color);
+    }
+
+    .user-greeting {
+        text-align: center;
+        display: block;
     }
     
     .page-header h1 { font-size: 1.8rem; }

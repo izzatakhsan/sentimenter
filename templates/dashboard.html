@@ -12,29 +12,29 @@
     <div id="dashboard-container">
         <!-- Loop data dari Flask -->
         {% for key, data in dashboard_data.items() %}
-        <div class="card" style="border-width: 4px; box-shadow: 8px 8px 0px #000;">
-            <div style="background-color: var(--primary-color); border-bottom: 4px solid #000; padding: 15px; margin: -30px -30px 20px -30px;">
-                <h2 style="margin: 0; border: none; font-size: 1.5rem; padding: 0; background: none;">{{ data.title }}</h2>
+        <div class="card" style="box-shadow: 8px 8px 0px var(--border-color); overflow: hidden;">
+            <div style="background-color: var(--tertiary-color); border-bottom: var(--border-width) solid var(--border-color); padding: 15px; margin: -30px -30px 20px -30px; border-top-left-radius: 14px; border-top-right-radius: 14px;">
+                <h2 style="margin: 0; border: none; font-size: 1.5rem; padding: 0; background: none; box-shadow: none; border-radius: 0;">{{ data.title }}</h2>
             </div>
-
+ 
             <div class="charts-grid" style="margin-top: 30px;">
                 <!-- Bar Chart Container -->
-                <div class="chart-box">
+                <div class="chart-box" style="border-radius: var(--radius-sm);">
                     <h3>Distribusi</h3>
                     <canvas id="bar-{{ key }}"></canvas>
                 </div>
-
+ 
                 <!-- Pie Chart Container -->
-                <div class="chart-box">
+                <div class="chart-box" style="border-radius: var(--radius-sm);">
                     <h3>Proporsi</h3>
                     <div style="position: relative; max-height: 300px; margin: auto;">
                         <canvas id="pie-{{ key }}"></canvas>
                     </div>
                 </div>
             </div>
-
+ 
             <!-- Word Cloud Image Section -->
-            <div class="chart-box" style="width: 100%; margin-top: 30px; border: 3px solid #000;">
+            <div class="chart-box" style="width: 100%; margin-top: 30px; border-radius: var(--radius-sm);">
                 <h3>Word Cloud</h3>
                 <!-- Menggunakan url_for static -->
                 <img src="{{ url_for('static', filename='images/' + data.image) }}" 
@@ -60,13 +60,13 @@
         // 1. Ambil data lengkap dari Flask
         const dashboardData = {{ dashboard_data | tojson }};
 
-        // Konfigurasi Font & Warna Neo-Brutalism
-        Chart.defaults.font.family = "'Space Grotesk', sans-serif";
-        Chart.defaults.color = '#000';
+        // Konfigurasi Font & Warna Playful Geometric
+        Chart.defaults.font.family = "'Outfit', sans-serif";
+        Chart.defaults.color = '#1E293B';
         
-        const bgColors = ['#00E676', '#d1d1d1', '#FF5252']; // Hijau, Abu, Merah
-        const borderColors = '#000000';
-        const borderWidth = 3;
+        const bgColors = ['#34D399', '#CBD5E1', '#F472B6']; // Mint, Abu, Pink
+        const borderColors = '#1E293B';
+        const borderWidth = 2;
 
         // 2. Loop setiap topik (IKN, Whoosh)
         for (const [key, item] of Object.entries(dashboardData)) {
@@ -99,12 +99,12 @@
                         scales: {
                             y: {
                                 beginAtZero: true,
-                                grid: { color: '#000', lineWidth: 1 },
-                                ticks: { color: '#000', font: { weight: 'bold' } }
+                                grid: { color: '#1E293B', lineWidth: 1 },
+                                ticks: { color: '#1E293B', font: { weight: 'bold' } }
                             },
                             x: {
                                 grid: { display: false },
-                                ticks: { color: '#000', font: { weight: 'bold' } }
+                                ticks: { color: '#1E293B', font: { weight: 'bold' } }
                             }
                         }
                     }
@@ -130,7 +130,7 @@
                         plugins: {
                             legend: {
                                 position: 'bottom',
-                                labels: { color: '#000', font: { weight: 'bold' } }
+                                labels: { color: '#1E293B', font: { weight: 'bold' } }
                             }
                         }
                     }

@@ -1,0 +1,183 @@
+{% extends 'layout.html' %}
+
+{% block title %}Detail Riwayat - {{ analysis.filename }}{% endblock %}
+
+{% block page_title %}Detail Riwayat Analisis{% endblock %}
+
+{% block content %}
+    <div style="display: flex; gap: 15px; margin-bottom: 2rem; flex-wrap: wrap;">
+        <a href="{{ url_for('history') }}" class="btn" style="background-color: var(--card-bg); padding: 8px 16px; font-size: 0.9rem; box-shadow: 3px 3px 0px #000;">
+            <i class="fas fa-arrow-left"></i> Kembali ke Riwayat
+        </a>
+        <a href="{{ url_for('download_history_csv', analysis_id=analysis.id) }}" class="btn btn-success" style="padding: 8px 16px; font-size: 0.9rem; box-shadow: 3px 3px 0px #000; color: var(--text-main);">
+            <i class="fas fa-file-download"></i> Unduh Hasil (.csv)
+        </a>
+    </div>
+
+    <!-- Info Card -->
+    <div class="card">
+        <h2>Informasi File</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 10px;">
+            <div>
+                <strong>Nama File:</strong>
+                <p style="font-size: 1.1rem; font-weight: 600; margin-top: 5px;"><i class="fas fa-file-alt"></i> {{ analysis.filename }}</p>
+            </div>
+            <div>
+                <strong>Kolom Teks:</strong>
+                <p style="font-size: 1.1rem; font-weight: 600; margin-top: 5px;"><code>{{ analysis.text_column }}</code></p>
+            </div>
+            <div>
+                <strong>Tanggal Analisis:</strong>
+                <p style="font-size: 1.1rem; font-weight: 600; margin-top: 5px;">{{ analysis.timestamp.strftime('%d-%m-%Y %H:%M:%S') }}</p>
+            </div>
+        </div>
+    </div>
+
+    {# Embed JSON data #}
+    <script id="sentiment-data" type="application/json">
+        {
+            "Positif": {{ analysis.positive_count }},
+            "Netral": {{ analysis.neutral_count }},
+            "Negatif": {{ analysis.negative_count }}
+        }
+    </script>
+
+    <!-- Visualisasi Hasil -->
+    <div class="card">
+        <h2>Visualisasi Hasil</h2>
+        
+        <div class="charts-grid" style="margin-top: 20px;">
+            <!-- Bar Chart -->
+            <div class="chart-box">
+                <h3>Distribusi Sentimen</h3>
+                <canvas id="barChartCanvas"></canvas>
+            </div>
+            
+            <!-- Pie Chart -->
+            <div class="chart-box">
+                <h3>Proporsi Sentimen</h3>
+                <div style="position: relative; max-height: 400px; margin: auto;">
+                    <canvas id="pieChartCanvas"></canvas>
+                </div>
+            </div>
+        </div>
+
+        {% if analysis.wordcloud_base64 %}
+        <div class="chart-box" style="width: 100%; margin-bottom: 30px; margin-top: 30px;">
+            <h3>Word Cloud</h3>
+            <img src="data:image/png;base64,{{ analysis.wordcloud_base64 }}" alt="Word Cloud" style="max-width: 100%; border: 2px solid #000;">
+        </div>
+        {% endif %}
+
+        {% if analysis.results_table_html %}
+        <h2 style="font-size: 1.5rem; margin-top: 2rem;">Data Tabel Hasil</h2>
+        <div class="table-responsive" style="margin-top: 15px;">
+            {{ analysis.results_table_html|safe }}
+        </div>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const countsEl = document.getElementById('sentiment-data');
+        let counts = null;
+
+        if (countsEl) {
+            try {
+                counts = JSON.parse(countsEl.textContent || 'null');
+            } catch (e) {
+                console.error("Gagal mem-parsing data sentimen:", e);
+                counts = null;
+            }
+        }
+        
+        if (counts && Object.keys(counts).length > 0) {
+            // Setup Data
+            const labels = ['Positif', 'Netral', 'Negatif'];
+            const data = [
+                counts['Positif'] || 0,
+                counts['Netral'] || 0,
+                counts['Negatif'] || 0
+            ];
+            
+            // Warna Playful Geometric
+            const bgColors = [
+                '#34D399', // Emerald/Mint (Positif)
+                '#CBD5E1', // Slate Grey (Netral)
+                '#F472B6'  // Hot Pink (Negatif)
+            ];
+            
+            const borderColors = '#1E293B'; // Slate 800
+            const borderWidth = 2;          // Border 2px
+
+            // Config Font
+            Chart.defaults.font.family = "'Outfit', sans-serif";
+            Chart.defaults.color = '#1E293B';
+
+            // Buat Bar Chart
+            const barCtx = document.getElementById('barChartCanvas');
+            if (barCtx) {
+                new Chart(barCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Jumlah',
+                            data: data,
+                            backgroundColor: bgColors,
+                            borderColor: borderColors,
+                            borderWidth: borderWidth,
+                            hoverOffset: 4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: { display: false }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                grid: { color: '#000', lineWidth: 1 },
+                                ticks: { color: '#000', font: { weight: 'bold' } }
+                            },
+                            x: {
+                                grid: { display: false },
+                                ticks: { color: '#000', font: { weight: 'bold' } }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Buat Pie Chart
+            const pieCtx = document.getElementById('pieChartCanvas');
+            if (pieCtx) {
+                new Chart(pieCtx, {
+                    type: 'pie',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            data: data,
+                            backgroundColor: bgColors,
+                            borderColor: borderColors,
+                            borderWidth: borderWidth
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: { color: '#000', font: { weight: 'bold' } }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+    });
+</script>
+{% endblock %}

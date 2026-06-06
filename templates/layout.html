@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Sentimenter{% endblock %} - Analisis Sentimen</title>
     
-    <!-- 1. Google Font: Space Grotesk (Judul) & Inter (Body) -->
+    <!-- 1. Google Font: Outfit (Judul) & Plus Jakarta Sans (Body) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
     
     <!-- 2. Font Awesome (untuk Ikon) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" 
@@ -33,7 +33,7 @@
     <nav class="navbar">
         <div class="navbar-container">
             <a href="{{ url_for('home') }}" class="navbar-brand">
-                <i class="fas fa-robot"></i> SENTIMENTER
+                SENTIMENTER
             </a>
             
             <button class="hamburger-btn" id="hamburger-btn">
@@ -45,7 +45,19 @@
                     <li><a href="{{ url_for('home') }}">Home</a></li>
                     <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
                     <li><a href="{{ url_for('analysis') }}">Analysis</a></li>
+                    {% if g.user %}
+                        <li><a href="{{ url_for('history') }}">History</a></li>
+                    {% endif %}
                     <li><a href="{{ url_for('about') }}">About</a></li>
+                </ul>
+                <ul class="navbar-nav auth-nav">
+                    {% if g.user %}
+                        <li class="user-greeting"><span><i class="fas fa-user"></i> {{ g.user.username }}</span></li>
+                        <li><a href="{{ url_for('logout') }}" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                    {% else %}
+                        <li><a href="{{ url_for('login') }}"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+                        <li><a href="{{ url_for('register') }}" class="register-nav-btn"><i class="fas fa-user-plus"></i> Register</a></li>
+                    {% endif %}
                 </ul>
             </div>
         </div>
