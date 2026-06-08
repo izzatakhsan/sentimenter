@@ -17,8 +17,11 @@ ALLOWED_EXTENSIONS = {'csv', 'xlsx'}
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from flask_wtf.csrf import CSRFProtect
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 app = Flask(__name__)
+# Tambahkan ProxyFix agar rate limiting mendapatkan IP asli client saat dideploy di Hugging Face (di balik reverse proxy)
+app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'gantidenganyangaman')
 

@@ -8,7 +8,6 @@ WORKDIR /code
 COPY ./requirements.txt /code/requirements.txt
 
 # Install dependencies
-# --no-cache-dir agar image tidak terlalu besar
 RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 
 # Buat user baru 'user' dengan ID 1000 (Syarat keamanan Hugging Face)
@@ -21,6 +20,9 @@ USER user
 ENV HOME=/home/user \
     PATH=/home/user/.local/bin:$PATH
 
+# Pre-download & cache model IndoBERT di dalam container agar space startup instan
+RUN python -c "from transformers import AutoTokenizer, AutoModelForSequenceClassification; AutoTokenizer.from_pretrained('crypter70/IndoBERT-Sentiment-Analysis'); AutoModelForSequenceClassification.from_pretrained('crypter70/IndoBERT-Sentiment-Analysis')"
+
 # Pindah ke direktori kerja user
 WORKDIR $HOME/app
 
@@ -31,5 +33,4 @@ COPY --chown=user . $HOME/app
 RUN mkdir -p $HOME/app/uploads
 
 # Jalankan aplikasi menggunakan Gunicorn pada port 7860
-# Port 7860 adalah port wajib untuk Hugging Face Spaces
 CMD ["gunicorn", "-b", "0.0.0.0:7860", "app:app"]

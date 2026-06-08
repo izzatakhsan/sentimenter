@@ -13,8 +13,8 @@
         <!-- Loop data dari Flask -->
         {% for key, data in dashboard_data.items() %}
         <div class="card" style="box-shadow: 8px 8px 0px var(--border-color); overflow: hidden;">
-            <div style="background-color: var(--tertiary-color); border-bottom: var(--border-width) solid var(--border-color); padding: 15px; margin: -30px -30px 20px -30px; border-top-left-radius: 14px; border-top-right-radius: 14px;">
-                <h2 style="margin: 0; border: none; font-size: 1.5rem; padding: 0; background: none; box-shadow: none; border-radius: 0;">{{ data.title }}</h2>
+            <div class="card-header">
+                <h2>{{ data.title }}</h2>
             </div>
  
             <div class="charts-grid" style="margin-top: 30px;">

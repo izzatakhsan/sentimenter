@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dokumentasi API & Keamanan - Sentimenter</title>
+  
+  <!-- Google Fonts & Prism Code Highlighting CSS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+  
+  <!-- Lucide Icons via CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    :root {
+      --bg-primary: #0b0f19;
+      --bg-secondary: #111827;
+      --bg-tertiary: #1f2937;
+      --text-primary: #f3f4f6;
+      --text-secondary: #9ca3af;
+      --text-muted: #6b7280;
+      
+      --accent-indigo: #6366f1;
+      --accent-purple: #a855f7;
+      --accent-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+      --accent-glowing: 0 0 20px rgba(99, 102, 241, 0.35);
+      
+      --border-color: #374151;
+      --border-light: rgba(255, 255, 255, 0.08);
+      
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --info: #3b82f6;
+
+      --font-sans: 'Inter', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    /* Reset & Base Styles */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background-color: var(--bg-primary);
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      line-height: 1.6;
+      display: flex;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: var(--accent-indigo);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    a:hover {
+      color: var(--accent-purple);
+    }
+
+    /* Layout Container */
+    .app-container {
+      display: flex;
+      width: 100%;
+      min-height: 100vh;
+    }
+
+    /* Sidebar Navigation */
+    .sidebar {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      width: 320px;
+      min-width: 320px;
+      background-color: var(--bg-secondary);
+      border-right: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      padding: 2rem 1.5rem;
+    }
+
+    .sidebar-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 2.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .sidebar-logo {
+      width: 36px;
+      height: 36px;
+      background: var(--accent-gradient);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      box-shadow: var(--accent-glowing);
+    }
+
+    .sidebar-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      background: var(--accent-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .nav-section {
+      margin-bottom: 2rem;
+    }
+
+    .nav-section-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+      margin-bottom: 0.75rem;
+      padding-left: 0.5rem;
+    }
+
+    .nav-list {
+      list-style: none;
+    }
+
+    .nav-item {
+      margin-bottom: 0.25rem;
+    }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.5rem 0.75rem;
+      border-radius: 6px;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+
+    .nav-link:hover {
+      background-color: var(--bg-tertiary);
+      color: var(--text-primary);
+    }
+
+    .nav-link.active {
+      background: rgba(99, 102, 241, 0.15);
+      color: var(--text-primary);
+      border-left: 3px solid var(--accent-indigo);
+      padding-left: 0.55rem;
+    }
+
+    .nav-link-method {
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 0.1rem 0.35rem;
+      border-radius: 3px;
+      min-width: 38px;
+      text-align: center;
+    }
+
+    /* Main Content Area */
+    .content-area {
+      flex: 1;
+      padding: 3rem 4rem;
+      max-width: 1000px;
+      overflow-y: auto;
+    }
+
+    header {
+      margin-bottom: 3.5rem;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.5rem;
+      background: var(--accent-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle {
+      font-size: 1.125rem;
+      color: var(--text-secondary);
+      max-width: 700px;
+    }
+
+    h2 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-top: 3.5rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      color: var(--text-primary);
+    }
+
+    p {
+      color: var(--text-secondary);
+      margin-bottom: 1.25rem;
+    }
+
+    ul, ol {
+      margin-left: 1.5rem;
+      margin-bottom: 1.25rem;
+      color: var(--text-secondary);
+    }
+
+    li {
+      margin-bottom: 0.5rem;
+    }
+
+    code:not(pre code) {
+      background-color: var(--bg-secondary);
+      color: #e06c75;
+      padding: 0.2rem 0.4rem;
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      font-size: 0.85em;
+      border: 1px solid var(--border-color);
+    }
+
+    /* API Endpoint Cards */
+    .endpoint-card {
+      background-color: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1.75rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .endpoint-card:hover {
+      border-color: rgba(99, 102, 241, 0.4);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+    }
+
+    .endpoint-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .endpoint-url {
+      font-family: var(--font-mono);
+      font-size: 1.05rem;
+      font-weight: 600;
+      background-color: var(--bg-tertiary);
+      padding: 0.25rem 0.75rem;
+      border-radius: 6px;
+      border: 1px solid var(--border-light);
+    }
+
+    .endpoint-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin: 0;
+      color: var(--text-primary);
+    }
+
+    .method {
+      font-weight: 800;
+      font-size: 0.8rem;
+      padding: 0.3rem 0.75rem;
+      border-radius: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .method-get {
+      background-color: rgba(16, 185, 129, 0.12);
+      color: var(--success);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+    }
+
+    .method-post {
+      background-color: rgba(245, 158, 11, 0.12);
+      color: var(--warning);
+      border: 1px solid rgba(245, 158, 11, 0.25);
+    }
+
+    .endpoint-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .badge {
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.2rem 0.6rem;
+      border-radius: 9999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .badge-public {
+      background-color: rgba(156, 163, 175, 0.1);
+      color: var(--text-secondary);
+      border: 1px solid rgba(156, 163, 175, 0.2);
+    }
+
+    .badge-auth {
+      background-color: rgba(99, 102, 241, 0.12);
+      color: #a5b4fc;
+      border: 1px solid rgba(99, 102, 241, 0.25);
+    }
+
+    .badge-limit {
+      background-color: rgba(239, 68, 68, 0.1);
+      color: #fca5a5;
+      border: 1px solid rgba(239, 68, 68, 0.2);
+    }
+
+    .endpoint-description {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      margin-bottom: 1rem;
+    }
+
+    .endpoint-details {
+      border-top: 1px solid var(--border-color);
+      padding-top: 1rem;
+      margin-top: 1rem;
+    }
+
+    .detail-section-title {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .detail-list {
+      list-style-type: none;
+      margin: 0 0 1rem 0;
+      padding: 0;
+    }
+
+    .detail-list li {
+      font-size: 0.9rem;
+      margin-bottom: 0.35rem;
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .detail-list li strong {
+      color: var(--text-primary);
+      min-width: 120px;
+    }
+
+    /* Security Cards */
+    .security-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .security-card {
+      background-color: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .security-card-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .security-card-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      background-color: rgba(99, 102, 241, 0.1);
+      color: var(--accent-indigo);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .security-card-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .security-card-body {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      flex: 1;
+    }
+
+    .security-card-link {
+      font-size: 0.8rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      margin-top: 0.5rem;
+    }
+
+    /* Alerts */
+    .alert {
+      padding: 1rem 1.25rem;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+      display: flex;
+      gap: 0.75rem;
+      align-items: flex-start;
+      border: 1px solid transparent;
+    }
+
+    .alert-info {
+      background-color: rgba(59, 130, 246, 0.08);
+      border-color: rgba(59, 130, 246, 0.2);
+      color: #93c5fd;
+    }
+
+    .alert-warning {
+      background-color: rgba(245, 158, 11, 0.08);
+      border-color: rgba(245, 158, 11, 0.2);
+      color: #fde047;
+    }
+
+    .alert-icon {
+      flex-shrink: 0;
+      margin-top: 0.15rem;
+    }
+
+    /* Prism Overrides */
+    pre[class*="language-"] {
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      margin-bottom: 1.5rem;
+    }
+
+    /* Quick Links File Icon Indicator */
+    .file-link-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      font-size: 0.85em;
+      opacity: 0.8;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 1024px) {
+      .app-container {
+        flex-direction: column;
+      }
+      .sidebar {
+        width: 100%;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+        position: relative;
+      }
+      .content-area {
+        padding: 2rem 1.5rem;
+      }
+      .security-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">S</div>
+        <div class="sidebar-title">Sentimenter API</div>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-section-title">Dokumentasi</div>
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="#pendahuluan" class="nav-link active" id="link-pendahuluan">
+              <i data-lucide="info"></i> Pendahuluan
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-section-title">API Endpoints</div>
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="#ep-home" class="nav-link" id="link-ep-home">
+              <span class="nav-link-method method-get" style="background-color: rgba(16, 185, 129, 0.1); color: var(--success);">GET</span> /
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#ep-dashboard" class="nav-link" id="link-ep-dashboard">
+              <span class="nav-link-method method-get" style="background-color: rgba(16, 185, 129, 0.1); color: var(--success);">GET</span> /dashboard
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#ep-analysis" class="nav-link" id="link-ep-analysis">
+              <span class="nav-link-method method-get" style="background-color: rgba(16, 185, 129, 0.1); color: var(--success); min-width: 32px; display: inline-block;">G/P</span> /analysis
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#ep-register" class="nav-link" id="link-ep-register">
+              <span class="nav-link-method method-get" style="background-color: rgba(245, 158, 11, 0.1); color: var(--warning); min-width: 32px; display: inline-block;">G/P</span> /register
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#ep-login" class="nav-link" id="link-ep-login">
+              <span class="nav-link-method method-get" style="background-color: rgba(245, 158, 11, 0.1); color: var(--warning); min-width: 32px; display: inline-block;">G/P</span> /login
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#ep-logout" class="nav-link" id="link-ep-logout">
+              <span class="nav-link-method method-get" style="background-color: rgba(16, 185, 129, 0.1); color: var(--success);">GET</span> /logout
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#ep-history" class="nav-link" id="link-ep-history">
+              <span class="nav-link-method method-get" style="background-color: rgba(16, 185, 129, 0.1); color: var(--success);">GET</span> /history
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#ep-history-detail" class="nav-link" id="link-ep-history-detail">
+              <span class="nav-link-method method-get" style="background-color: rgba(16, 185, 129, 0.1); color: var(--success);">GET</span> /history/&lt;id&gt;
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#ep-history-delete" class="nav-link" id="link-ep-history-delete">
+              <span class="nav-link-method method-post" style="background-color: rgba(245, 158, 11, 0.1); color: var(--warning);">POST</span> /history/&lt;id&gt;/delete
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#ep-download-temp" class="nav-link" id="link-ep-download-temp">
+              <span class="nav-link-method method-get" style="background-color: rgba(16, 185, 129, 0.1); color: var(--success);">GET</span> /download_temp
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#ep-download-history" class="nav-link" id="link-ep-download-history">
+              <span class="nav-link-method method-get" style="background-color: rgba(16, 185, 129, 0.1); color: var(--success);">GET</span> /history/&lt;id&gt;/download
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#ep-about" class="nav-link" id="link-ep-about">
+              <span class="nav-link-method method-get" style="background-color: rgba(16, 185, 129, 0.1); color: var(--success);">GET</span> /about
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-section-title">Keamanan (Security)</div>
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="#csrf-security" class="nav-link" id="link-csrf-security"><i data-lucide="shield-alert"></i> CSRF Protection</a>
+          </li>
+          <li class="nav-item">
+            <a href="#rate-limiting-security" class="nav-link" id="link-rate-limiting-security"><i data-lucide="gauge"></i> Rate Limiting</a>
+          </li>
+          <li class="nav-item">
+            <a href="#session-cookie-security" class="nav-link" id="link-session-cookie-security"><i data-lucide="cookie"></i> Session Cookies</a>
+          </li>
+          <li class="nav-item">
+            <a href="#file-upload-security" class="nav-link" id="link-file-upload-security"><i data-lucide="upload-cloud"></i> File Security</a>
+          </li>
+          <li class="nav-item">
+            <a href="#auth-security" class="nav-link" id="link-auth-security"><i data-lucide="key-round"></i> Password Hashing</a>
+          </li>
+          <li class="nav-item">
+            <a href="#idor-security" class="nav-link" id="link-idor-security"><i data-lucide="file-key-2"></i> IDOR Prevention</a>
+          </li>
+          <li class="nav-item">
+            <a href="#sql-injection-security" class="nav-link" id="link-sql-injection-security"><i data-lucide="database"></i> SQL Injection</a>
+          </li>
+          <li class="nav-item">
+            <a href="#env-security" class="nav-link" id="link-env-security"><i data-lucide="lock"></i> Env Variables</a>
+          </li>
+          <li class="nav-item">
+            <a href="#docker-security" class="nav-link" id="link-docker-security"><i data-lucide="container"></i> Container Security</a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-section-title">Deployment</div>
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="#cara-menjalankan" class="nav-link" id="link-cara-menjalankan">
+              <i data-lucide="terminal"></i> Menjalankan Aplikasi
+            </a>
+          </li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="content-area">
+      <header>
+        <h1 id="pendahuluan">Dokumentasi API &amp; Penerapan Keamanan</h1>
+        <p class="subtitle">Panduan teknis antarmuka aplikasi pemrograman (API) dan implementasi keamanan pada sistem analisis sentimen IndoBERT <strong>Sentimenter</strong>.</p>
+      </header>
+
+      <section>
+        <p>Aplikasi <strong>Sentimenter</strong> adalah aplikasi web berbasis Flask yang digunakan untuk memprediksi sentimen (Positif, Netral, Negatif) dari masukan teks tunggal atau batch (melalui file CSV/Excel) dengan model pembelajaran mendalam (Deep Learning) IndoBERT (<code>crypter70/IndoBERT-Sentiment-Analysis</code>). Berkas historis analisis batch disimpan ke database PostgreSQL (Supabase).</p>
+      </section>
+
+      <!-- Section: API Endpoints -->
+      <h2 id="endpoints"><i data-lucide="api"></i> API Endpoints</h2>
+      <p>Berikut adalah spesifikasi teknis dari masing-masing API router yang digunakan pada aplikasi:</p>
+
+      <!-- 1.1. Home -->
+      <div class="endpoint-card" id="ep-home">
+        <div class="endpoint-header">
+          <span class="method method-get">GET</span>
+          <span class="endpoint-url">/</span>
+          <h3 class="endpoint-title">Halaman Utama (Home)</h3>
+        </div>
+        <div class="endpoint-meta">
+          <span class="badge badge-public"><i data-lucide="unlock"></i> Publik</span>
+        </div>
+        <div class="endpoint-description">
+          Merender dan menampilkan halaman beranda (landing page) aplikasi web.
+        </div>
+        <div class="endpoint-details">
+          <div class="detail-section-title">Respons</div>
+          <ul class="detail-list">
+            <li><strong>Tipe Konten:</strong> <code>text/html</code></li>
+            <li><strong>Isi:</strong> Tampilan utama web yang memaparkan fitur umum Sentimenter.</li>
+          </ul>
+          <a href="./app.py#L84-L87" class="file-link-indicator"><i data-lucide="file-code"></i> app.py (line 84-87)</a>
+        </div>
+      </div>
+
+      <!-- 1.2. Dashboard -->
+      <div class="endpoint-card" id="ep-dashboard">
+        <div class="endpoint-header">
+          <span class="method method-get">GET</span>
+          <span class="endpoint-url">/dashboard</span>
+          <h3 class="endpoint-title">Dashboard Visualisasi</h3>
+        </div>
+        <div class="endpoint-meta">
+          <span class="badge badge-public"><i data-lucide="unlock"></i> Publik</span>
+        </div>
+        <div class="endpoint-description">
+          Menampilkan dashboard statistik sentimen yang bersifat statis untuk topik IKN dan Whoosh.
+        </div>
+        <div class="endpoint-details">
+          <div class="detail-section-title">Respons</div>
+          <ul class="detail-list">
+            <li><strong>Tipe Konten:</strong> <code>text/html</code></li>
+            <li><strong>Isi:</strong> Halaman dashboard yang merender diagram sentimen IKN dan Whoosh menggunakan Chart.js.</li>
+          </ul>
+          <a href="./app.py#L89-L108" class="file-link-indicator"><i data-lucide="file-code"></i> app.py (line 89-108)</a>
+        </div>
+      </div>
+
+      <!-- 1.3. Analysis -->
+      <div class="endpoint-card" id="ep-analysis">
+        <div class="endpoint-header">
+          <span class="method method-get">GET</span>
+          <span class="method method-post">POST</span>
+          <span class="endpoint-url">/analysis</span>
+          <h3 class="endpoint-title">Halaman Analisis Sentimen</h3>
+        </div>
+        <div class="endpoint-meta">
+          <span class="badge badge-public"><i data-lucide="unlock"></i> Publik / Login</span>
+          <span class="badge badge-limit"><i data-lucide="gauge"></i> 20 req/min</span>
+        </div>
+        <div class="endpoint-description">
+          Menangani proses formulir analisis sentimen, baik berupa teks tunggal atau unggahan file (CSV/Excel) secara massal.
+        </div>
+        <div class="endpoint-details">
+          <div class="detail-section-title">Payload (POST - Teks Tunggal)</div>
+          <ul class="detail-list">
+            <li><strong>Form Parameter:</strong> <code>text_input</code> (String) - Kalimat yang ingin diklasifikasi sentimennya.</li>
+          </ul>
+
+          <div class="detail-section-title">Payload (POST - File Upload)</div>
+          <ul class="detail-list">
+            <li><strong>Form Parameter:</strong> <code>text_column</code> (String) - Nama kolom teks di dalam berkas yang diunggah.</li>
+            <li><strong>Files:</strong> <code>file</code> (Berkas .csv / .xlsx) - Berkas tabel masukan. Maksimum 10MB.</li>
+          </ul>
+
+          <div class="detail-section-title">Perilaku Sesi (Session Behavior)</div>
+          <p style="font-size: 0.9rem; margin-bottom: 0.5rem;">
+            - <strong>Tamu (Guest):</strong> Hasil CSV batch diunggah ke storage sementara lokal dan referensinya dimasukkan ke dalam session cookie untuk diunduh via <code>/download_temp</code>.<br>
+            - <strong>Pengguna Terdaftar:</strong> Data hasil langsung dikirim dan disimpan ke database PostgreSQL, sehingga tercatat permanen pada akun pengguna.
+          </p>
+
+          <a href="./app.py#L110-L208" class="file-link-indicator"><i data-lucide="file-code"></i> app.py (line 110-208)</a>
+        </div>
+      </div>
+
+      <!-- 1.4. Register -->
+      <div class="endpoint-card" id="ep-register">
+        <div class="endpoint-header">
+          <span class="method method-get">GET</span>
+          <span class="method method-post">POST</span>
+          <span class="endpoint-url">/register</span>
+          <h3 class="endpoint-title">Registrasi Akun Baru</h3>
+        </div>
+        <div class="endpoint-meta">
+          <span class="badge badge-public"><i data-lucide="user-x"></i> Publik (Tamu saja)</span>
+          <span class="badge badge-limit"><i data-lucide="gauge"></i> 5 req/min</span>
+        </div>
+        <div class="endpoint-description">
+          Menangani pembuatan akun pengguna baru. Jika pengguna sudah login, sistem secara otomatis meredirect ke halaman beranda.
+        </div>
+        <div class="endpoint-details">
+          <div class="detail-section-title">Payload (POST)</div>
+          <ul class="detail-list">
+            <li><strong>Form Parameter:</strong> <code>username</code> (String, Unik) - Nama pengguna baru.</li>
+            <li><strong>Form Parameter:</strong> <code>password</code> (String) - Kata sandi akun.</li>
+            <li><strong>Form Parameter:</strong> <code>confirm_password</code> (String) - Pengulangan kata sandi untuk kecocokan.</li>
+          </ul>
+          <a href="./app.py#L210-L240" class="file-link-indicator"><i data-lucide="file-code"></i> app.py (line 210-240)</a>
+        </div>
+      </div>
+
+      <!-- 1.5. Login -->
+      <div class="endpoint-card" id="ep-login">
+        <div class="endpoint-header">
+          <span class="method method-get">GET</span>
+          <span class="method method-post">POST</span>
+          <span class="endpoint-url">/login</span>
+          <h3 class="endpoint-title">Proses Masuk Pengguna</h3>
+        </div>
+        <div class="endpoint-meta">
+          <span class="badge badge-public"><i data-lucide="user-x"></i> Publik (Tamu saja)</span>
+          <span class="badge badge-limit"><i data-lucide="gauge"></i> 5 req/min</span>
+        </div>
+        <div class="endpoint-description">
+          Melakukan otentikasi kredensial pengguna dan menginisialisasi sesi login.
+        </div>
+        <div class="endpoint-details">
+          <div class="detail-section-title">Payload (POST)</div>
+          <ul class="detail-list">
+            <li><strong>Form Parameter:</strong> <code>username</code> (String) - Nama pengguna terdaftar.</li>
+            <li><strong>Form Parameter:</strong> <code>password</code> (String) - Kata sandi akun.</li>
+          </ul>
+          <div class="detail-section-title">Respons</div>
+          <p style="font-size: 0.9rem; margin-bottom: 0.5rem;">Jika sukses, kredensial user disimpan ke <code>session['user_id']</code> dan diarahkan ke Halaman Utama dengan flash message.</p>
+          <a href="./app.py#L242-L266" class="file-link-indicator"><i data-lucide="file-code"></i> app.py (line 242-266)</a>
+        </div>
+      </div>
+
+      <!-- 1.6. Logout -->
+      <div class="endpoint-card" id="ep-logout">
+        <div class="endpoint-header">
+          <span class="method method-get">GET</span>
+          <span class="endpoint-url">/logout</span>
+          <h3 class="endpoint-title">Keluar Sesi</h3>
+        </div>
+        <div class="endpoint-meta">
+          <span class="badge badge-public"><i data-lucide="unlock"></i> Publik</span>
+        </div>
+        <div class="endpoint-description">
+          Menghapus dan membersihkan seluruh sesi pengguna yang aktif.
+        </div>
+        <div class="endpoint-details">
+          <div class="detail-section-title">Respons</div>
+          <p style="font-size: 0.9rem; margin-bottom: 0.5rem;">Melakukan eksekusi <code>session.clear()</code> lalu redirect ke Halaman Utama.</p>
+          <a href="./app.py#L268-L273" class="file-link-indicator"><i data-lucide="file-code"></i> app.py (line 268-273)</a>
+        </div>
+      </div>
+
+      <!-- 1.7. History -->
+      <div class="endpoint-card" id="ep-history">
+        <div class="endpoint-header">
+          <span class="method method-get">GET</span>
+          <span class="endpoint-url">/history</span>
+          <h3 class="endpoint-title">Riwayat Analisis Pengguna</h3>
+        </div>
+        <div class="endpoint-meta">
+          <span class="badge badge-auth"><i data-lucide="lock"></i> Login Diperlukan</span>
+        </div>
+        <div class="endpoint-description">
+          Menampilkan daftar ringkasan riwayat analisis batch yang pernah dijalankan oleh user.
+        </div>
+        <div class="endpoint-details">
+          <div class="detail-section-title">Respons</div>
+          <ul class="detail-list">
+            <li><strong>Tipe Konten:</strong> <code>text/html</code></li>
+            <li><strong>Isi:</strong> Halaman yang merender daftar file, tanggal analisis, dan statistik rasio sentimen negatif/positif/netral.</li>
+          </ul>
+          <a href="./app.py#L275-L284" class="file-link-indicator"><i data-lucide="file-code"></i> app.py (line 275-284)</a>
+        </div>
+      </div>
+
+      <!-- 1.8. History Detail -->
+      <div class="endpoint-card" id="ep-history-detail">
+        <div class="endpoint-header">
+          <span class="method method-get">GET</span>
+          <span class="endpoint-url">/history/&lt;int:analysis_id&gt;</span>
+          <h3 class="endpoint-title">Detail Riwayat Analisis</h3>
+        </div>
+        <div class="endpoint-meta">
+          <span class="badge badge-auth"><i data-lucide="lock"></i> Login Diperlukan</span>
+        </div>
+        <div class="endpoint-description">
+          Menampilkan rincian visualisasi (Word Cloud, Tabel Klasifikasi Data) dari satu instansi riwayat analisis batch yang tersimpan.
+        </div>
+        <div class="endpoint-details">
+          <div class="detail-section-title">Respons</div>
+          <ul class="detail-list">
+            <li><strong>Tipe Konten:</strong> <code>text/html</code></li>
+            <li><strong>Isi:</strong> Halaman detail analisis berdasarkan <code>analysis_id</code>. Keamanan terisolasi penuh sehingga data tidak dapat disusupi user lain.</li>
+          </ul>
+          <a href="./app.py#L286-L298" class="file-link-indicator"><i data-lucide="file-code"></i> app.py (line 286-298)</a>
+        </div>
+      </div>
+
+      <!-- 1.9. History Delete -->
+      <div class="endpoint-card" id="ep-history-delete">
+        <div class="endpoint-header">
+          <span class="method method-post">POST</span>
+          <span class="endpoint-url">/history/&lt;int:analysis_id&gt;/delete</span>
+          <h3 class="endpoint-title">Hapus Riwayat Analisis</h3>
+        </div>
+        <div class="endpoint-meta">
+          <span class="badge badge-auth"><i data-lucide="lock"></i> Login Diperlukan</span>
+        </div>
+        <div class="endpoint-description">
+          Menghapus data riwayat analisis tertentu dari database.
+        </div>
+        <div class="endpoint-details">
+          <div class="detail-section-title">Respons</div>
+          <p style="font-size: 0.9rem; margin-bottom: 0.5rem;">Redirect ke halaman <code>/history</code> disertai flash alert sukses/gagal.</p>
+          <a href="./app.py#L300-L312" class="file-link-indicator"><i data-lucide="file-code"></i> app.py (line 300-312)</a>
+        </div>
+      </div>
+
+      <!-- 1.10. Download Temp -->
+      <div class="endpoint-card" id="ep-download-temp">
+        <div class="endpoint-header">
+          <span class="method method-get">GET</span>
+          <span class="endpoint-url">/download_temp</span>
+          <h3 class="endpoint-title">Unduh File Hasil Sementara (Tamu)</h3>
+        </div>
+        <div class="endpoint-meta">
+          <span class="badge badge-public"><i data-lucide="unlock"></i> Publik</span>
+        </div>
+        <div class="endpoint-description">
+          Mengunduh file CSV hasil pemrosesan sentimen sementara yang didefinisikan dalam folder uploads berdasarkan session token tamu.
+        </div>
+        <div class="endpoint-details">
+          <div class="detail-section-title">Respons</div>
+          <ul class="detail-list">
+            <li><strong>Tipe Konten:</strong> <code>text/csv</code></li>
+            <li><strong>Download Nama:</strong> <code>[NamaFileAsli]_analisis.csv</code></li>
+          </ul>
+          <a href="./app.py#L314-L331" class="file-link-indicator"><i data-lucide="file-code"></i> app.py (line 314-331)</a>
+        </div>
+      </div>
+
+      <!-- 1.11. Download History -->
+      <div class="endpoint-card" id="ep-download-history">
+        <div class="endpoint-header">
+          <span class="method method-get">GET</span>
+          <span class="endpoint-url">/history/&lt;int:analysis_id&gt;/download</span>
+          <h3 class="endpoint-title">Unduh File Hasil Riwayat (Login)</h3>
+        </div>
+        <div class="endpoint-meta">
+          <span class="badge badge-auth"><i data-lucide="lock"></i> Login Diperlukan</span>
+        </div>
+        <div class="endpoint-description">
+          Mengunduh berkas CSV dari hasil analisis batch lama milik pengguna yang disimpan secara aman dalam database PostgreSQL.
+        </div>
+        <div class="endpoint-details">
+          <div class="detail-section-title">Respons</div>
+          <ul class="detail-list">
+            <li><strong>Tipe Konten:</strong> <code>text/csv</code></li>
+            <li><strong>Download Nama:</strong> <code>[NamaFileAsli]_analisis.csv</code></li>
+          </ul>
+          <a href="./app.py#L333-L352" class="file-link-indicator"><i data-lucide="file-code"></i> app.py (line 333-352)</a>
+        </div>
+      </div>
+
+      <!-- 1.12. About -->
+      <div class="endpoint-card" id="ep-about">
+        <div class="endpoint-header">
+          <span class="method method-get">GET</span>
+          <span class="endpoint-url">/about</span>
+          <h3 class="endpoint-title">Tentang Aplikasi</h3>
+        </div>
+        <div class="endpoint-meta">
+          <span class="badge badge-public"><i data-lucide="unlock"></i> Publik</span>
+        </div>
+        <div class="endpoint-description">
+          Merender halaman penjelasan sistem dan pengembang aplikasi Sentimenter.
+        </div>
+        <div class="endpoint-details">
+          <a href="./app.py#L354-L357" class="file-link-indicator"><i data-lucide="file-code"></i> app.py (line 354-357)</a>
+        </div>
+      </div>
+
+
+      <!-- Section: Security Implementation -->
+      <h2 id="security"><i data-lucide="shield-check"></i> Penerapan Keamanan (Security)</h2>
+      <p>Sistem Sentimenter dikonfigurasi menggunakan standar pengamanan web (OWASP top-10 mitigation) untuk mencegah celah eksploitasi data atau manipulasi server.</p>
+
+      <div class="security-grid">
+        <!-- 2.1 CSRF -->
+        <div class="security-card" id="csrf-security">
+          <div class="security-card-header">
+            <div class="security-card-icon"><i data-lucide="shield-alert"></i></div>
+            <div class="security-card-title">Perlindungan CSRF</div>
+          </div>
+          <div class="security-card-body">
+            Menggunakan pustaka <code>flask_wtf.csrf.CSRFProtect</code> secara global. Flask WTForms memvalidasi token CSRF unik yang disematkan dalam form HTML untuk memproses data pasca-submit (POST).
+          </div>
+          <a href="./app.py#L36" class="security-card-link">Lihat Kode <i data-lucide="arrow-right" style="width:12px;"></i></a>
+        </div>
+
+        <!-- 2.2 Rate Limiting -->
+        <div class="security-card" id="rate-limiting-security">
+          <div class="security-card-header">
+            <div class="security-card-icon"><i data-lucide="gauge"></i></div>
+            <div class="security-card-title">Rate Limiting &amp; ProxyFix</div>
+          </div>
+          <div class="security-card-body">
+            Membatasi serangan DDoS / brute force login. Rute login &amp; register dibatasi maks 5 req/menit, sedangkan inferensi AI dibatasi 20 req/menit. Dibuat adaptif via <code>ProxyFix</code> agar mengenali IP asli klien di balik reverse proxy.
+          </div>
+          <a href="./app.py#L23-L24" class="security-card-link">Lihat Kode <i data-lucide="arrow-right" style="width:12px;"></i></a>
+        </div>
+
+        <!-- 2.3 Session Cookie -->
+        <div class="security-card" id="session-cookie-security">
+          <div class="security-card-header">
+            <div class="security-card-icon"><i data-lucide="cookie"></i></div>
+            <div class="security-card-title">Sesi Cookie yang Aman</div>
+          </div>
+          <div class="security-card-body">
+            Session Cookie dilindungi dengan tag <code>SESSION_COOKIE_HTTPONLY=True</code> untuk menangkal pencurian cookie via XSS, serta <code>SESSION_COOKIE_SAMESITE='Lax'</code> untuk menangkal CSRF.
+          </div>
+          <a href="./app.py#L32-L33" class="security-card-link">Lihat Kode <i data-lucide="arrow-right" style="width:12px;"></i></a>
+        </div>
+
+        <!-- 2.4 File Upload Security -->
+        <div class="security-card" id="file-upload-security">
+          <div class="security-card-header">
+            <div class="security-card-icon"><i data-lucide="upload-cloud"></i></div>
+            <div class="security-card-title">Keamanan Unggah File</div>
+          </div>
+          <div class="security-card-body">
+            Membatasi ukuran berkas maks 10MB (<code>MAX_CONTENT_LENGTH</code>) untuk mencegah DoS. File dibatasi hanya ekstensi <code>.csv</code> dan <code>.xlsx</code> serta nama file dibersihkan menggunakan fungsi <code>secure_filename</code>.
+          </div>
+          <a href="./app.py#L29" class="security-card-link">Lihat Kode <i data-lucide="arrow-right" style="width:12px;"></i></a>
+        </div>
+
+        <!-- 2.5 Password Hashing -->
+        <div class="security-card" id="auth-security">
+          <div class="security-card-header">
+            <div class="security-card-icon"><i data-lucide="key-round"></i></div>
+            <div class="security-card-title">Hashing Kata Sandi</div>
+          </div>
+          <div class="security-card-body">
+            Tidak pernah menyimpan password dalam bentuk plaintext. Menggunakan pustaka <code>werkzeug.security</code> dengan metode <code>generate_password_hash</code> (PBKDF2/scrypt) saat registrasi, serta dicocokkan via <code>check_password_hash</code> saat login.
+          </div>
+          <a href="./database.py#L78" class="security-card-link">Lihat Kode <i data-lucide="arrow-right" style="width:12px;"></i></a>
+        </div>
+
+        <!-- 2.6 IDOR Prevention -->
+        <div class="security-card" id="idor-security">
+          <div class="security-card-header">
+            <div class="security-card-icon"><i data-lucide="file-key-2"></i></div>
+            <div class="security-card-title">Pencegahan Serangan IDOR</div>
+          </div>
+          <div class="security-card-body">
+            Mencegah modifikasi data orang lain secara ilegal. Setiap operasi data riwayat (baca detail, hapus, unduh) di filter menggunakan parameter ID Analisis DAN ID User yang sedang masuk secara bersamaan (<code>WHERE id = %s AND user_id = %s</code>).
+          </div>
+          <a href="./database.py#L202-L208" class="security-card-link">Lihat Kode <i data-lucide="arrow-right" style="width:12px;"></i></a>
+        </div>
+
+        <!-- 2.7 SQL Injection -->
+        <div class="security-card" id="sql-injection-security">
+          <div class="security-card-header">
+            <div class="security-card-icon"><i data-lucide="database"></i></div>
+            <div class="security-card-title">Pencegahan SQL Injection</div>
+          </div>
+          <div class="security-card-body">
+            Menghindari pemakaian penggabungan string (string concatenation) pada penulisan query database. Library driver database <code>psycopg2</code> digunakan secara parameterized (menggunakan placeholder tuple <code>%s</code>).
+          </div>
+          <a href="./database.py#L109" class="security-card-link">Lihat Kode <i data-lucide="arrow-right" style="width:12px;"></i></a>
+        </div>
+
+        <!-- 2.8 Environment Variables -->
+        <div class="security-card" id="env-security">
+          <div class="security-card-header">
+            <div class="security-card-icon"><i data-lucide="lock"></i></div>
+            <div class="security-card-title">Kredensial Terenkripsi</div>
+          </div>
+          <div class="security-card-body">
+            Semua parameter rahasia (seperti <code>DATABASE_URL</code> dan <code>SECRET_KEY</code>) dikelola melalui file <code>.env</code> eksternal menggunakan <code>python-dotenv</code>. Berkas ini dikecualikan dari Git (.gitignore).
+          </div>
+          <a href="./database.py#L10" class="security-card-link">Lihat Kode <i data-lucide="arrow-right" style="width:12px;"></i></a>
+        </div>
+
+        <!-- 2.9 Docker Security -->
+        <div class="security-card" id="docker-security">
+          <div class="security-card-header">
+            <div class="security-card-icon"><i data-lucide="container"></i></div>
+            <div class="security-card-title">Keamanan Kontainer Docker</div>
+          </div>
+          <div class="security-card-body">
+            Kontainer dikonfigurasi untuk berjalan dengan user non-root (UID 1000) bertajuk <code>user</code>, menghindari eskalasi akses root ke sistem operasi host di Hugging Face.
+          </div>
+          <a href="./Dockerfile#L14-L17" class="security-card-link">Lihat Kode <i data-lucide="arrow-right" style="width:12px;"></i></a>
+        </div>
+      </div>
+
+      <!-- Section: Setup & Run -->
+      <h2 id="cara-menjalankan"><i data-lucide="terminal"></i> Cara Menjalankan &amp; Pengujian Aplikasi</h2>
+      <p>Berikut adalah langkah-langkah untuk menyiapkan dan menjalankan server pengujian API secara lokal:</p>
+
+      <h3>1. Instalasi Dependensi</h3>
+      <p>Instal pustaka Python yang dibutuhkan yang terdaftar dalam file <code>requirements.txt</code>:</p>
+      <pre><code class="language-bash">pip install -r requirements.txt</code></pre>
+
+      <h3>2. Pengisian Environment File (.env)</h3>
+      <p>Buat file baru bernama <code>.env</code> di direktori root program Anda:</p>
+      <pre><code class="language-env">SECRET_KEY=kunci_rahasia_anda_yang_sangat_panjang_dan_aman
+DATABASE_URL=postgresql://postgres:[PASSWORD]@[HOST]:5432/postgres</code></pre>
+
+      <div class="alert alert-warning">
+        <div class="alert-icon"><i data-lucide="alert-triangle"></i></div>
+        <div>
+          <strong>Penting:</strong> Gantilah nilai <code>[PASSWORD]</code> dan <code>[HOST]</code> sesuai kredensial koneksi database PostgreSQL / Supabase Anda yang valid.
+        </div>
+      </div>
+
+      <h3>3. Menjalankan Server Lokal</h3>
+      <p>Jalankan perintah di bawah ini untuk memulai server Flask mode debug:</p>
+      <pre><code class="language-bash">python app.py</code></pre>
+      <p>Aplikasi web akan tersedia di tautan port lokal: <a href="http://127.0.0.1:5000/" target="_blank">http://127.0.0.1:5000/</a>.</p>
+
+      <h3>4. Menjalankan Mode Produksi (Production Gunicorn)</h3>
+      <p>Untuk menjalankan aplikasi dengan load balancer yang stabil untuk environment produksi:</p>
+      <pre><code class="language-bash">gunicorn -b 0.0.0.0:7860 app:app</code></pre>
+    </main>
+  </div>
+
+  <!-- Prism Syntax Highlighting JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+
+  <script>
+    // Inisialisasi ikon Lucide
+    lucide.createIcons();
+
+    // Logika Scrollspy Sederhana untuk memperbarui status link aktif di sidebar
+    const sections = document.querySelectorAll('h1, h2, .endpoint-card, .security-card');
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    window.addEventListener('scroll', () => {
+      let currentSectionId = 'pendahuluan';
+      
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.clientHeight;
+        if (pageYOffset >= (sectionTop - 150)) {
+          currentSectionId = section.getAttribute('id') || currentSectionId;
+        }
+      });
+
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === `#${currentSectionId}`) {
+          link.classList.add('active');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

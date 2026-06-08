@@ -6,27 +6,27 @@
 
 {% block content %}
     <!-- Hero Section -->
-    <div style="text-align: center; padding: 80px 20px; margin-bottom: 50px; background: #ffffff; border: var(--border-width) solid var(--border-color); border-radius: var(--radius-lg); box-shadow: 8px 8px 0px #E2E8F0; position: relative; overflow: hidden;">
+    <div class="hero-section">
         <!-- Background decoration circles -->
-        <div style="position: absolute; top: -50px; left: -50px; width: 150px; height: 150px; background: var(--tertiary-color); border-radius: var(--radius-full); z-index: 1; opacity: 0.15; border: var(--border-width) solid var(--border-color);"></div>
-        <div style="position: absolute; bottom: -60px; right: -40px; width: 180px; height: 180px; background: var(--secondary-color); border-radius: var(--radius-full); z-index: 1; opacity: 0.15; border: var(--border-width) solid var(--border-color);"></div>
+        <div class="hero-deco-1"></div>
+        <div class="hero-deco-2"></div>
         
-        <div style="position: relative; z-index: 2;">
-            <h1 style="font-size: 4rem; margin-bottom: 25px; line-height: 1.1; font-weight: 800;">
+        <div class="hero-content">
+            <h1 class="hero-title">
                 <span style="color: var(--accent-color);">Sentimenter</span> AI
             </h1>
-            <p style="font-size: 1.25rem; max-width: 700px; margin: 0 auto 40px auto; color: var(--text-muted); font-weight: 500;">
+            <p class="hero-desc">
                 Pahami emosi di balik kata-kata dengan kekuatan Artificial Intelligence. 
                 Analisis ulasan pelanggan, komentar media sosial, dan dokumen teks secara instan.
             </p>
-            <a href="{{ url_for('analysis') }}" class="btn btn-primary" style="padding: 16px 40px; font-size: 1.1rem;">
+            <a href="{{ url_for('analysis') }}" class="btn btn-primary hero-btn">
                 Mulai Analisis <i class="fas fa-arrow-right" style="margin-left: 10px;"></i>
             </a>
         </div>
     </div>
 
     <!-- Features Grid -->
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; margin-top: 30px;">
+    <div class="features-grid">
         
         <div class="card" style="text-align: center; position: relative; padding-top: 50px;">
             <!-- Icon sitting on the top border -->
