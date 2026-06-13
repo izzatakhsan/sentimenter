@@ -18,7 +18,7 @@ Berikut adalah spesifikasi teknis dari masing-masing API router yang digunakan p
 * **Respons:**
   * **Tipe Konten:** `text/html`
   * **Isi:** Tampilan utama web yang memaparkan fitur umum Sentimenter.
-* **Referensi Kode:** [app.py:L84-87](file:///c:/Users/MyBook%20Hype%20AMD/Videos/senti_v2/sentimenter/app.py#L84-L87)
+* **Referensi Kode:** [app.py:L84-87](https://github.com/izzatakhsan/sentimenter/blob/main/app.py)
 
 ---
 
@@ -30,7 +30,7 @@ Berikut adalah spesifikasi teknis dari masing-masing API router yang digunakan p
 * **Respons:**
   * **Tipe Konten:** `text/html`
   * **Isi:** Halaman dashboard yang merender diagram sentimen IKN dan Whoosh menggunakan Chart.js.
-* **Referensi Kode:** [app.py:L89-108](file:///c:/Users/MyBook%20Hype%20AMD/Videos/senti_v2/sentimenter/app.py#L89-108)
+* **Referensi Kode:** [app.py:L89-108](https://github.com/izzatakhsan/sentimenter/blob/main/app.py)
 
 ---
 
@@ -48,7 +48,7 @@ Berikut adalah spesifikasi teknis dari masing-masing API router yang digunakan p
 * **Perilaku Sesi (Session Behavior):**
   * **Tamu (Guest):** Hasil CSV batch diunggah ke storage sementara lokal dan referensinya dimasukkan ke dalam session cookie untuk diunduh via `/download_temp`.
   * **Pengguna Terdaftar:** Data hasil langsung dikirim dan disimpan ke database PostgreSQL, sehingga tercatat permanen pada akun pengguna.
-* **Referensi Kode:** [app.py:L110-208](file:///c:/Users/MyBook%20Hype%20AMD/Videos/senti_v2/sentimenter/app.py#L110-L208)
+* **Referensi Kode:** [app.py:L110-208](https://github.com/izzatakhsan/sentimenter/blob/main/app.py)
 
 ---
 
@@ -62,7 +62,7 @@ Berikut adalah spesifikasi teknis dari masing-masing API router yang digunakan p
   * `username` (String, Unik) - Nama pengguna baru.
   * `password` (String) - Kata sandi akun.
   * `confirm_password` (String) - Pengulangan kata sandi untuk kecocokan.
-* **Referensi Kode:** [app.py:L210-240](file:///c:/Users/MyBook%20Hype%20AMD/Videos/senti_v2/sentimenter/app.py#L210-L240)
+* **Referensi Kode:** [app.py:L210-240](https://github.com/izzatakhsan/sentimenter/blob/main/app.py)
 
 ---
 
@@ -77,7 +77,7 @@ Berikut adalah spesifikasi teknis dari masing-masing API router yang digunakan p
   * `password` (String) - Kata sandi akun.
 * **Respons:**
   * Jika sukses, kredensial user disimpan ke `session['user_id']` dan diarahkan ke Halaman Utama dengan flash message.
-* **Referensi Kode:** [app.py:L242-266](file:///c:/Users/MyBook%20Hype%20AMD/Videos/senti_v2/sentimenter/app.py#L242-L266)
+* **Referensi Kode:** [app.py:L242-266](https://github.com/izzatakhsan/sentimenter/blob/main/app.py)
 
 ---
 
@@ -88,7 +88,7 @@ Berikut adalah spesifikasi teknis dari masing-masing API router yang digunakan p
 * **Deskripsi:** Menghapus dan membersihkan seluruh sesi pengguna yang aktif.
 * **Respons:**
   * Melakukan eksekusi `session.clear()` lalu redirect ke Halaman Utama.
-* **Referensi Kode:** [app.py:L268-273](file:///c:/Users/MyBook%20Hype%20AMD/Videos/senti_v2/sentimenter/app.py#L268-L273)
+* **Referensi Kode:** [app.py:L268-273](https://github.com/izzatakhsan/sentimenter/blob/main/app.py)
 
 ---
 
@@ -100,7 +100,7 @@ Berikut adalah spesifikasi teknis dari masing-masing API router yang digunakan p
 * **Respons:**
   * **Tipe Konten:** `text/html`
   * **Isi:** Halaman yang merender daftar file, tanggal analisis, dan statistik rasio sentimen negatif/positif/netral.
-* **Referensi Kode:** [app.py:L275-284](file:///c:/Users/MyBook%20Hype%20AMD/Videos/senti_v2/sentimenter/app.py#L275-L284)
+* **Referensi Kode:** [app.py:L275-284](https://github.com/izzatakhsan/sentimenter/blob/main/app.py)
 
 ---
 
@@ -112,7 +112,7 @@ Berikut adalah spesifikasi teknis dari masing-masing API router yang digunakan p
 * **Respons:**
   * **Tipe Konten:** `text/html`
   * **Isi:** Halaman detail analisis berdasarkan `analysis_id`. Keamanan terisolasi penuh sehingga data tidak dapat disusupi user lain.
-* **Referensi Kode:** [app.py:L286-298](file:///c:/Users/MyBook%20Hype%20AMD/Videos/senti_v2/sentimenter/app.py#L286-L298)
+* **Referensi Kode:** [app.py:L286-298](https://github.com/izzatakhsan/sentimenter/blob/main/app.py)
 
 ---
 
@@ -123,7 +123,7 @@ Berikut adalah spesifikasi teknis dari masing-masing API router yang digunakan p
 * **Deskripsi:** Menghapus data riwayat analisis tertentu dari database.
 * **Respons:**
   * Redirect ke halaman `/history` disertai flash alert sukses/gagal.
-* **Referensi Kode:** [app.py:L300-312](file:///c:/Users/MyBook%20Hype%20AMD/Videos/senti_v2/sentimenter/app.py#L300-L312)
+* **Referensi Kode:** [app.py:L300-312](https://github.com/izzatakhsan/sentimenter/blob/main/app.py)
 
 ---
 
@@ -135,7 +135,7 @@ Berikut adalah spesifikasi teknis dari masing-masing API router yang digunakan p
 * **Respons:**
   * **Tipe Konten:** `text/csv`
   * **Download Nama:** `[NamaFileAsli]_analisis.csv`
-* **Referensi Kode:** [app.py:L314-331](file:///c:/Users/MyBook%20Hype%20AMD/Videos/senti_v2/sentimenter/app.py#L314-L331)
+* **Referensi Kode:** [app.py:L314-331](https://github.com/izzatakhsan/sentimenter/blob/main/app.py)
 
 ---
 
@@ -147,7 +147,7 @@ Berikut adalah spesifikasi teknis dari masing-masing API router yang digunakan p
 * **Respons:**
   * **Tipe Konten:** `text/csv`
   * **Download Nama:** `[NamaFileAsli]_analisis.csv`
-* **Referensi Kode:** [app.py:L333-352](file:///c:/Users/MyBook%20Hype%20AMD/Videos/senti_v2/sentimenter/app.py#L333-L352)
+* **Referensi Kode:** [app.py:L333-352](https://github.com/izzatakhsan/sentimenter/blob/main/app.py)
 
 ---
 
@@ -156,7 +156,7 @@ Berikut adalah spesifikasi teknis dari masing-masing API router yang digunakan p
 * **Method:** `GET`
 * **Akses:** `Publik`
 * **Deskripsi:** Merender halaman penjelasan sistem dan pengembang aplikasi Sentimenter.
-* **Referensi Kode:** [app.py:L354-357](file:///c:/Users/MyBook%20Hype%20AMD/Videos/senti_v2/sentimenter/app.py#L354-L357)
+* **Referensi Kode:** [app.py:L354-357](https://github.com/izzatakhsan/sentimenter/blob/main/app.py)
 
 ---
 
@@ -166,15 +166,15 @@ Sistem Sentimenter dikonfigurasi menggunakan standar pengamanan web (OWASP top-1
 
 | Fitur Keamanan | Deskripsi | Referensi Kode |
 | :--- | :--- | :--- |
-| **Perlindungan CSRF** | Menggunakan pustaka `flask_wtf.csrf.CSRFProtect` secara global. Flask WTForms memvalidasi token CSRF unik yang disematkan dalam form HTML untuk memproses data pasca-submit (POST). | [app.py:L36](file:///c:/Users/MyBook%20Hype%20AMD/Videos/senti_v2/sentimenter/app.py#L36) |
-| **Rate Limiting & ProxyFix** | Membatasi serangan DDoS / brute force login. Rute login & register dibatasi maks 5 req/menit, sedangkan inferensi AI dibatasi 20 req/menit. Dibuat adaptif via `ProxyFix` agar mengenali IP asli klien di balik reverse proxy. | [app.py:L23-24](file:///c:/Users/MyBook%20Hype%20AMD/Videos/senti_v2/sentimenter/app.py#L23-L24) |
-| **Sesi Cookie yang Aman** | Session Cookie dilindungi dengan tag `SESSION_COOKIE_HTTPONLY=True` untuk menangkal pencurian cookie via XSS, serta `SESSION_COOKIE_SAMESITE='Lax'` untuk menangkal CSRF. | [app.py:L32-33](file:///c:/Users/MyBook%20Hype%20AMD/Videos/senti_v2/sentimenter/app.py#L32-L33) |
-| **Keamanan Unggah File** | Membatasi ukuran berkas maks 10MB (`MAX_CONTENT_LENGTH`) untuk mencegah DoS. File dibatasi hanya ekstensi `.csv` dan `.xlsx` serta nama file dibersihkan menggunakan fungsi `secure_filename`. | [app.py:L29](file:///c:/Users/MyBook%20Hype%20AMD/Videos/senti_v2/sentimenter/app.py#L29) |
-| **Hashing Kata Sandi** | Tidak pernah menyimpan password dalam bentuk plaintext. Menggunakan pustaka `werkzeug.security` dengan metode `generate_password_hash` (PBKDF2/scrypt) saat registrasi, serta dicocokkan via `check_password_hash` saat login. | [database.py:L78](file:///c:/Users/MyBook%20Hype%20AMD/Videos/senti_v2/sentimenter/database.py#L78) |
-| **Pencegahan Serangan IDOR** | Mencegah modifikasi data orang lain secara ilegal. Setiap operasi data riwayat (baca detail, hapus, unduh) di filter menggunakan parameter ID Analisis DAN ID User yang sedang masuk secara bersamaan (`WHERE id = %s AND user_id = %s`). | [database.py:L202-208](file:///c:/Users/MyBook%20Hype%20AMD/Videos/senti_v2/sentimenter/database.py#L202-L208) |
-| **Pencegahan SQL Injection** | Menghindari pemakaian penggabungan string (string concatenation) pada penulisan query database. Library driver database `psycopg2` digunakan secara parameterized (menggunakan placeholder tuple `%s`). | [database.py:L109](file:///c:/Users/MyBook%20Hype%20AMD/Videos/senti_v2/sentimenter/database.py#L109) |
-| **Kredensial Terenkripsi** | Semua parameter rahasia (seperti `DATABASE_URL` dan `SECRET_KEY`) dikelola melalui file `.env` eksternal menggunakan `python-dotenv`. Berkas ini dikecualikan dari Git (.gitignore). | [database.py:L10](file:///c:/Users/MyBook%20Hype%20AMD/Videos/senti_v2/sentimenter/database.py#L10) |
-| **Keamanan Kontainer Docker** | Kontainer dikonfigurasi untuk berjalan dengan user non-root (UID 1000) bertajuk `user`, menghindari eskalasi akses root ke sistem operasi host di Hugging Face. | [Dockerfile:L14-17](file:///c:/Users/MyBook%20Hype%20AMD/Videos/senti_v2/sentimenter/Dockerfile#L14-L17) |
+| **Perlindungan CSRF** | Menggunakan pustaka `flask_wtf.csrf.CSRFProtect` secara global. Flask WTForms memvalidasi token CSRF unik yang disematkan dalam form HTML untuk memproses data pasca-submit (POST). | [app.py:L36](https://github.com/izzatakhsan/sentimenter/blob/main/app.py) |
+| **Rate Limiting & ProxyFix** | Membatasi serangan DDoS / brute force login. Rute login & register dibatasi maks 5 req/menit, sedangkan inferensi AI dibatasi 20 req/menit. Dibuat adaptif via `ProxyFix` agar mengenali IP asli klien di balik reverse proxy. | [app.py:L23-24](https://github.com/izzatakhsan/sentimenter/blob/main/app.py) |
+| **Sesi Cookie yang Aman** | Session Cookie dilindungi dengan tag `SESSION_COOKIE_HTTPONLY=True` untuk menangkal pencurian cookie via XSS, serta `SESSION_COOKIE_SAMESITE='Lax'` untuk menangkal CSRF. | [app.py:L32-33](https://github.com/izzatakhsan/sentimenter/blob/main/app.py) |
+| **Keamanan Unggah File** | Membatasi ukuran berkas maks 10MB (`MAX_CONTENT_LENGTH`) untuk mencegah DoS. File dibatasi hanya ekstensi `.csv` dan `.xlsx` serta nama file dibersihkan menggunakan fungsi `secure_filename`. | [app.py:L29](https://github.com/izzatakhsan/sentimenter/blob/main/app.py) |
+| **Hashing Kata Sandi** | Tidak pernah menyimpan password dalam bentuk plaintext. Menggunakan pustaka `werkzeug.security` dengan metode `generate_password_hash` (PBKDF2/scrypt) saat registrasi, serta dicocokkan via `check_password_hash` saat login. | [database.py:L78](https://github.com/izzatakhsan/sentimenter/blob/main/database.py) |
+| **Pencegahan Serangan IDOR** | Mencegah modifikasi data orang lain secara ilegal. Setiap operasi data riwayat (baca detail, hapus, unduh) di filter menggunakan parameter ID Analisis DAN ID User yang sedang masuk secara bersamaan (`WHERE id = %s AND user_id = %s`). | [database.py:L202-208](https://github.com/izzatakhsan/sentimenter/blob/main/database.py) |
+| **Pencegahan SQL Injection** | Menghindari pemakaian penggabungan string (string concatenation) pada penulisan query database. Library driver database `psycopg2` digunakan secara parameterized (menggunakan placeholder tuple `%s`). | [database.py:L109](https://github.com/izzatakhsan/sentimenter/blob/main/database.py) |
+| **Kredensial Terenkripsi** | Semua parameter rahasia (seperti `DATABASE_URL` dan `SECRET_KEY`) dikelola melalui file `.env` eksternal menggunakan `python-dotenv`. Berkas ini dikecualikan dari Git (.gitignore). | [database.py:L10](https://github.com/izzatakhsan/sentimenter/blob/main/database.py) |
+| **Keamanan Kontainer Docker** | Kontainer dikonfigurasi untuk berjalan dengan user non-root (UID 1000) bertajuk `user`, menghindari eskalasi akses root ke sistem operasi host di Hugging Face. | [Dockerfile:L14-17](https://github.com/izzatakhsan/sentimenter/blob/main/Dockerfile) |
 
 ---
 
