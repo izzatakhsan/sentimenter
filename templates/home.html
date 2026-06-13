@@ -5,55 +5,61 @@
 {% block page_title %}{% endblock %} <!-- Kosongkan default title, kita gunakan Hero section -->
 
 {% block content %}
-    <!-- Hero Section -->
-    <div class="hero-section">
-        <!-- Background decoration circles -->
-        <div class="hero-deco-1"></div>
-        <div class="hero-deco-2"></div>
-        
-        <div class="hero-content">
-            <h1 class="hero-title">
-                <span style="color: var(--accent-color);">Sentimenter</span> AI
-            </h1>
-            <p class="hero-desc">
-                Pahami emosi di balik kata-kata dengan kekuatan Artificial Intelligence. 
-                Analisis ulasan pelanggan, komentar media sosial, dan dokumen teks secara instan.
-            </p>
-            <a href="{{ url_for('analysis') }}" class="btn btn-primary hero-btn">
-                Mulai Analisis <i class="fas fa-arrow-right" style="margin-left: 10px;"></i>
-            </a>
+<!-- Hero Section -->
+<div class="hero-section">
+    <!-- Background decoration circles -->
+    <div class="hero-deco-1"></div>
+    <div class="hero-deco-2"></div>
+
+    <div class="hero-content">
+        <h1 class="hero-title">
+            <span style="color: var(--accent-color);">Sentimenter</span>
+        </h1>
+        <p class="hero-desc">
+            Pahami emosi di balik kata-kata dengan kekuatan Artificial Intelligence.
+            Analisis ulasan pelanggan, komentar media sosial, dan dokumen teks secara instan.
+        </p>
+        <a href="{{ url_for('analysis') }}" class="btn btn-primary hero-btn">
+            Mulai Analisis <i class="fas fa-arrow-right" style="margin-left: 10px;"></i>
+        </a>
+    </div>
+</div>
+
+<!-- Features Grid -->
+<div class="features-grid">
+
+    <div class="card" style="text-align: center; position: relative; padding-top: 50px;">
+        <!-- Icon sitting on the top border -->
+        <div
+            style="position: absolute; top: -30px; left: 50%; transform: translateX(-50%); width: 60px; height: 60px; background: var(--accent-color); border: var(--border-width) solid var(--border-color); border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; box-shadow: 3px 3px 0px var(--border-color);">
+            <i class="fas fa-bolt" style="font-size: 1.5rem; color: #fff;"></i>
         </div>
+        <h3 style="font-size: 1.5rem; margin-bottom: 15px;">Cepat & Akurat</h3>
+        <p style="color: var(--text-muted); font-weight: 500;">Didukung oleh model IndoBERT yang telah dilatih khusus
+            untuk memahami konteks bahasa Indonesia, termasuk bahasa gaul.</p>
     </div>
 
-    <!-- Features Grid -->
-    <div class="features-grid">
-        
-        <div class="card" style="text-align: center; position: relative; padding-top: 50px;">
-            <!-- Icon sitting on the top border -->
-            <div style="position: absolute; top: -30px; left: 50%; transform: translateX(-50%); width: 60px; height: 60px; background: var(--accent-color); border: var(--border-width) solid var(--border-color); border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; box-shadow: 3px 3px 0px var(--border-color);">
-                <i class="fas fa-bolt" style="font-size: 1.5rem; color: #fff;"></i>
-            </div>
-            <h3 style="font-size: 1.5rem; margin-bottom: 15px;">Cepat & Akurat</h3>
-            <p style="color: var(--text-muted); font-weight: 500;">Didukung oleh model IndoBERT yang telah dilatih khusus untuk memahami konteks bahasa Indonesia, termasuk bahasa gaul.</p>
+    <div class="card" style="text-align: center; position: relative; padding-top: 50px;">
+        <!-- Icon sitting on the top border -->
+        <div
+            style="position: absolute; top: -30px; left: 50%; transform: translateX(-50%); width: 60px; height: 60px; background: var(--secondary-color); border: var(--border-width) solid var(--border-color); border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; box-shadow: 3px 3px 0px var(--border-color);">
+            <i class="fas fa-layer-group" style="font-size: 1.5rem; color: #fff;"></i>
         </div>
-
-        <div class="card" style="text-align: center; position: relative; padding-top: 50px;">
-            <!-- Icon sitting on the top border -->
-            <div style="position: absolute; top: -30px; left: 50%; transform: translateX(-50%); width: 60px; height: 60px; background: var(--secondary-color); border: var(--border-width) solid var(--border-color); border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; box-shadow: 3px 3px 0px var(--border-color);">
-                <i class="fas fa-layer-group" style="font-size: 1.5rem; color: #fff;"></i>
-            </div>
-            <h3 style="font-size: 1.5rem; margin-bottom: 15px;">Analisis Massal</h3>
-            <p style="color: var(--text-muted); font-weight: 500;">Hemat waktu dengan mengunggah file CSV atau Excel. Proses ribuan baris data hanya dalam sekali klik.</p>
-        </div>
-
-        <div class="card" style="text-align: center; position: relative; padding-top: 50px;">
-            <!-- Icon sitting on the top border -->
-            <div style="position: absolute; top: -30px; left: 50%; transform: translateX(-50%); width: 60px; height: 60px; background: var(--tertiary-color); border: var(--border-width) solid var(--border-color); border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; box-shadow: 3px 3px 0px var(--border-color);">
-                <i class="fas fa-chart-bar" style="font-size: 1.5rem; color: var(--text-main);"></i>
-            </div>
-            <h3 style="font-size: 1.5rem; margin-bottom: 15px;">Visualisasi Data</h3>
-            <p style="color: var(--text-muted); font-weight: 500;">Dapatkan wawasan mendalam melalui grafik interaktif dan Word Cloud yang estetis dan mudah dipahami.</p>
-        </div>
-
+        <h3 style="font-size: 1.5rem; margin-bottom: 15px;">Analisis Massal</h3>
+        <p style="color: var(--text-muted); font-weight: 500;">Hemat waktu dengan mengunggah file CSV atau Excel. Proses
+            ribuan baris data hanya dalam sekali klik.</p>
     </div>
+
+    <div class="card" style="text-align: center; position: relative; padding-top: 50px;">
+        <!-- Icon sitting on the top border -->
+        <div
+            style="position: absolute; top: -30px; left: 50%; transform: translateX(-50%); width: 60px; height: 60px; background: var(--tertiary-color); border: var(--border-width) solid var(--border-color); border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; box-shadow: 3px 3px 0px var(--border-color);">
+            <i class="fas fa-chart-bar" style="font-size: 1.5rem; color: var(--text-main);"></i>
+        </div>
+        <h3 style="font-size: 1.5rem; margin-bottom: 15px;">Visualisasi Data</h3>
+        <p style="color: var(--text-muted); font-weight: 500;">Dapatkan wawasan mendalam melalui grafik interaktif dan
+            Word Cloud yang estetis dan mudah dipahami.</p>
+    </div>
+
+</div>
 {% endblock %}

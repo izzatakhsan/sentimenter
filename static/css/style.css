@@ -479,24 +479,174 @@ textarea.form-control {
 }
 
 /* --- 9. Visualisasi & Hasil --- */
-.result-block {
-    padding: 20px;
-    background-color: #fff;
-    border: var(--border-width) solid var(--border-color);
+/* --- Single Sentiment Result Card (Neo-Brutalist) --- */
+.sentiment-result-card {
     margin-top: 2rem;
-    box-shadow: 4px 4px 0px var(--border-color);
-    background-image: linear-gradient(45deg, #f0f0f0 25%, transparent 25%, transparent 75%, #f0f0f0 75%, #f0f0f0), linear-gradient(45deg, #f0f0f0 25%, transparent 25%, transparent 75%, #f0f0f0 75%, #f0f0f0);
-    background-size: 20px 20px;
-    background-position: 0 0, 10px 10px;
+    border: var(--border-width) solid var(--border-color);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: 6px 6px 0px var(--border-color);
+    transition: all 0.3s var(--transition-bounce);
 }
 
-.result-block h3 {
+.sentiment-result-card:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 8px 8px 0px var(--border-color);
+}
+
+/* Base states for Positive, Negative, Neutral */
+.sentiment-result-card.result-positive {
+    background-color: #ECFDF5; /* Soft Emerald */
+}
+.sentiment-result-card.result-negative {
+    background-color: #FFF5F5; /* Soft Red */
+}
+.sentiment-result-card.result-neutral {
+    background-color: #FEFBF0; /* Soft Amber */
+}
+
+/* Header Badge of Result Card */
+.sentiment-result-card .result-badge {
+    padding: 10px 20px;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 800;
+    font-size: 0.9rem;
+    letter-spacing: 0.05em;
+    border-bottom: var(--border-width) solid var(--border-color);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text-main);
+}
+
+.sentiment-result-card.result-positive .result-badge {
+    background-color: var(--quaternary-color);
+}
+.sentiment-result-card.result-negative .result-badge {
+    background-color: var(--secondary-color);
+    color: #fff;
+}
+.sentiment-result-card.result-neutral .result-badge {
+    background-color: var(--tertiary-color);
+}
+
+/* Result Content Box */
+.sentiment-result-card .result-content {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+@media (min-width: 768px) {
+    .sentiment-result-card .result-content {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: stretch;
+        gap: 30px;
+    }
+}
+
+/* Text Preview Panel */
+.sentiment-result-card .result-text-preview {
+    flex: 1;
     background-color: #fff;
     border: var(--border-width) solid var(--border-color);
-    padding: 10px;
-    display: inline-block;
-    margin: 0;
-    font-size: 2rem;
+    border-radius: var(--radius-sm);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.08);
+}
+
+.sentiment-result-card .preview-label {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+}
+
+.sentiment-result-card .preview-text {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: var(--text-main);
+    line-height: 1.5;
+    font-style: italic;
+}
+
+/* Sentiment Value Display Block */
+.sentiment-result-card .result-sentiment-display {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    min-width: 250px;
+    background-color: #fff;
+    border: var(--border-width) solid var(--border-color);
+    border-radius: var(--radius-sm);
+    padding: 16px 20px;
+    box-shadow: 4px 4px 0px var(--border-color);
+}
+
+.sentiment-result-card .sentiment-label-box {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.sentiment-result-card .label-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+}
+
+.sentiment-result-card .label-value {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 900;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+}
+
+.sentiment-result-card.result-positive .label-value {
+    color: #059669; /* Darker green */
+}
+.sentiment-result-card.result-negative .label-value {
+    color: #DB2777; /* Darker pink */
+}
+.sentiment-result-card.result-neutral .label-value {
+    color: #D97706; /* Darker amber */
+}
+
+/* Icon Container */
+.sentiment-result-card .sentiment-icon-container {
+    width: 60px;
+    height: 60px;
+    border-radius: var(--radius-full);
+    border: var(--border-width) solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    box-shadow: 2px 2px 0px var(--border-color);
+}
+
+.sentiment-result-card.result-positive .sentiment-icon-container {
+    background-color: var(--quaternary-color);
+    color: var(--text-main);
+}
+.sentiment-result-card.result-negative .sentiment-icon-container {
+    background-color: var(--secondary-color);
+    color: #fff;
+}
+.sentiment-result-card.result-neutral .sentiment-icon-container {
+    background-color: var(--tertiary-color);
+    color: var(--text-main);
 }
 
 .charts-grid {
@@ -810,17 +960,35 @@ textarea.form-control {
         margin-bottom: 15px;
     }
     
-    .result-block {
-        padding: 15px;
+    .sentiment-result-card {
         margin-top: 1.5rem;
+        box-shadow: 4px 4px 0px var(--border-color);
     }
     
-    .result-block h2 {
-        font-size: 1.1rem;
+    .sentiment-result-card .result-content {
+        padding: 16px;
+        gap: 16px;
     }
     
-    .result-block h3 {
+    .sentiment-result-card .preview-text {
+        font-size: 0.95rem;
+    }
+    
+    .sentiment-result-card .result-sentiment-display {
+        width: 100%;
+        min-width: 0;
+        padding: 12px 15px;
+        box-shadow: 3px 3px 0px var(--border-color);
+    }
+    
+    .sentiment-result-card .label-value {
         font-size: 1.5rem;
+    }
+    
+    .sentiment-result-card .sentiment-icon-container {
+        width: 45px;
+        height: 45px;
+        font-size: 1.4rem;
     }
     
     /* Form & Input Mobile */

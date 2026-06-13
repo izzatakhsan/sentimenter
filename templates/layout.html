@@ -3,6 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO & Link Preview Meta Tags (Open Graph & Twitter Cards) -->
+    <meta name="description" content="Pahami emosi di balik kata-kata dengan kekuatan Artificial Intelligence. Analisis ulasan, komentar, dan dokumen teks secara instan.">
+    <meta property="og:title" content="Sentimenter - Analisis Sentimen">
+    <meta property="og:description" content="Pahami emosi di balik kata-kata dengan kekuatan Artificial Intelligence. Analisis ulasan, komentar, dan dokumen teks secara instan.">
+    <meta property="og:image" content="{{ url_for('static', filename='images/sentimenter-preview.png', _external=True) }}">
+    <meta property="og:url" content="{{ request.url }}">
+    <meta property="og:type" content="website">
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Sentimenter - Analisis Sentimen">
+    <meta name="twitter:description" content="Pahami emosi di balik kata-kata dengan kekuatan Artificial Intelligence. Analisis ulasan, komentar, dan dokumen teks secara instan.">
+    <meta name="twitter:image" content="{{ url_for('static', filename='images/sentimenter-preview.png', _external=True) }}">
+    
     <title>{% block title %}Sentimenter{% endblock %} - Analisis Sentimen</title>
     
     <!-- 1. Google Font: Outfit (Judul) & Plus Jakarta Sans (Body) -->
@@ -17,6 +31,9 @@
           
     <!-- 3. Link ke File CSS Eksternal -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/logo-sentimenter.png') }}">
     
 </head>
 <body>

@@ -46,9 +46,29 @@
 
         <!-- Hasil Prediksi -->
         {% if prediction %}
-            <div class="result-block">
-                <h2 style="font-size: 1.2rem; margin-bottom: 1rem; border: none; background: none; padding: 0;">HASIL ANALISIS:</h2>
-                <h3>{{ prediction }}</h3>
+            <div class="sentiment-result-card {% if prediction == 'Positif' %}result-positive{% elif prediction == 'Negatif' %}result-negative{% else %}result-neutral{% endif %}">
+                <div class="result-badge">
+                    <i class="fas {% if prediction == 'Positif' %}fa-laugh-beam{% elif prediction == 'Negatif' %}fa-frown-open{% else %}fa-meh{% endif %}"></i>
+                    <span>HASIL ANALISIS SENTIMEN</span>
+                </div>
+                
+                <div class="result-content">
+                    <div class="result-text-preview">
+                        <span class="preview-label"><i class="fas fa-quote-left"></i> Teks yang dianalisis:</span>
+                        <p class="preview-text">"{{ text }}"</p>
+                    </div>
+                    
+                    <div class="result-sentiment-display">
+                        <div class="sentiment-label-box">
+                            <span class="label-title">SENTIMEN</span>
+                            <span class="label-value">{{ prediction }}</span>
+                        </div>
+                        
+                        <div class="sentiment-icon-container">
+                            <i class="fas {% if prediction == 'Positif' %}fa-circle-check{% elif prediction == 'Negatif' %}fa-circle-xmark{% else %}fa-circle-minus{% endif %}"></i>
+                        </div>
+                    </div>
+                </div>
             </div>
         {% endif %}
     </div>
