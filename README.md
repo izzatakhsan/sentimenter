@@ -59,7 +59,7 @@ Live demo aplikasi ini dapat diakses pada: **[s.id/sentimenter](https://s.id/sen
 │
 ├── /static/
 │   ├── /css/
-│   │   └── style.css            # Desain kustom bertema Neo-Brutalism
+│   │   └── style.css            # Desain kustom bertema Playful Geometric
 │   └── /images/
 │       ├── ikn.png              # Gambar data dashboard statis IKN
 │       ├── whoosh.png           # Gambar data dashboard statis Whoosh
@@ -91,10 +91,10 @@ Live demo aplikasi ini dapat diakses pada: **[s.id/sentimenter](https://s.id/sen
 ## 🔧 **Cara Menjalankan Aplikasi Secara Lokal**
 
 ### **1. Unduh Kode Sumber**
-Lakukan clone repositori ini atau salin seluruh isi direktori proyek ke dalam komputer Anda.
+Lakukan clone repositori ini atau salin seluruh isi direktori proyek.
 
 ### **2. Buat & Aktifkan Virtual Environment**
-Sangat disarankan menggunakan virtual environment agar pustaka tidak berbenturan.
+Sangat disarankan menggunakan virtual environment agar library tidak berbenturan.
 
 ```bash
 # Membuat virtual environment
@@ -111,11 +111,11 @@ source venv/bin/activate
 ```
 
 ### **3. Pasang Dependensi**
-Pasang pustaka-pustaka Python yang diperlukan:
+Pasang library Python yang diperlukan:
 ```bash
 pip install -r requirements.txt
 ```
-> **Catatan**: Unduhan pustaka `torch` (PyTorch) berukuran cukup besar dan proses instalasi mungkin memakan waktu beberapa menit.
+> **Catatan**: Unduhan library `torch` (PyTorch) berukuran cukup besar dan proses instalasi mungkin memakan waktu beberapa menit.
 
 ### **4. Konfigurasi Variabel Lingkungan**
 Salin berkas `.env.example` menjadi `.env` baru:
@@ -124,7 +124,7 @@ cp .env.example .env
 ```
 Buka file `.env` tersebut dan sesuaikan nilai variabelnya:
 * `SECRET_KEY`: String acak panjang untuk mengenkripsi cookie session.
-* `DATABASE_URL`: URI koneksi database PostgreSQL Anda (misal dari proyek Supabase).
+* `DATABASE_URL`: URI koneksi database PostgreSQL (misal dari proyek Supabase).
 
 ### **5. Jalankan Aplikasi**
 Jalankan server pengembangan Flask:
@@ -135,10 +135,10 @@ Atau jika menggunakan python langsung:
 ```bash
 python app.py
 ```
-Aplikasi akan mendeteksi skema database dan otomatis membuat tabel `users` serta `analyses` jika belum terbentuk sebelumnya. Pada eksekusi pertama kali, aplikasi akan mengunduh bobot model IndoBERT (~400 MB) dari Hugging Face ke folder cache lokal komputer Anda secara otomatis.
+Aplikasi akan mendeteksi skema database dan otomatis membuat tabel `users` serta `analyses` jika belum terbentuk sebelumnya. Pada eksekusi pertama kali, aplikasi akan mengunduh bobot model IndoBERT (~400 MB) dari Hugging Face ke folder cache lokal komputer secara otomatis.
 
 ### **6. Akses Aplikasi**
-Buka peramban (browser) Anda dan akses alamat berikut:
+Buka browser dan akses alamat berikut:
 ```text
 http://127.0.0.1:5000
 ```
@@ -164,6 +164,3 @@ Proyek ini dilengkapi dengan `Dockerfile` yang telah dikustomisasi dan dioptimal
    Akses melalui `http://localhost:7860`.
 
 ---
-
-## 👥 **Profil Pengembang**
-Website ini dikembangkan oleh **BRIN devs**, sekumpulan mahasiswa Sains Data yang bersemangat mengeksplorasi implementasi praktis teknologi kecerdasan buatan, pemrosesan bahasa alami (NLP), dan analisis data untuk memecahkan tantangan dunia nyata.
